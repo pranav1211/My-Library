@@ -1,49 +1,40 @@
 body {
     background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
     margin: 0;
-    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#welcome {
-    margin-left: 15%;
-    margin-top: 16%;
+#welcome {    
     font-size: 80px;
     font-family: "Farsan", cursive;
     font-weight: 400;
     font-style: normal;
     position: relative;
-}
 
-#design {
-    position: absolute;
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-}
+    padding: 50px;
 
-#pattern1 {
-    width: 5px;
-    height: 200vh;
-    background-color: black;
-    transform: rotate(45deg);    
-}
-
-#start{
-    float: right;    
 }
 #startit{    
     font-size: 40px;
     border-radius: 20px;
-    background-color: lightblue;
     padding: 15px;
+
+    background-color: lightblue;    
     border: 1px solid grey;
     box-shadow: 5px 5px 5px lightblue;
     font-family: "Farsan", cursive;
     font-weight: 400;
-    font-style: normal;
-    margin-bottom: 20px;
-    margin-top: -170px;
-    margin-left: 190px;
+    font-style: normal;    
+    cursor: pointer;    
+
+    margin-bottom: 40px;
+    
+}
+
+#startit:active {
+    transform: translateY(2px);
 }
 
 #note{
@@ -51,6 +42,8 @@ body {
     font-weight: 400;
     font-style: normal;
     font-size: 25px;
-    margin-right: 90px;
+    text-align: center;
+
+    
 }
 
