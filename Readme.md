@@ -20,3 +20,7 @@ Changelog:
             happens automatically for the first time
         -> added a scan again button that will scan a new barcode once the button is clicked
 
+   ## V 0.3:
+      16/4/2024 :
+         -> created a landing page
+         -> API call to get book name enabled
