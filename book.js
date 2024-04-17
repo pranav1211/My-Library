@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 var confirm = document.querySelector('#confirm')
 
 var ApiKey
-
+ 
 fetch('/api/key')
     .then(response => response.text())
     .then(apiKey => {
