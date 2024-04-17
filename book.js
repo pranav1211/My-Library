@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     quaggajss()
     scanButton.addEventListener('click', () => {
-        quaggajss()
+        quaggajss() 
     })
 
 
