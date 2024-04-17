@@ -81,11 +81,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 var confirm = document.querySelector('#confirm')
 
+var ApiKey
+
+fetch('/api/key')
+    .then(response => response.text())
+    .then(apiKey => {
+        ApiKey = apiKey;
+    })
+    .catch(error => {
+        alert('Error fetching API key:', error);
+    });
+
+
 confirm.addEventListener('click', () => {
 
     var node = document.getElementById('barcodeResult')
     codess = node.textContent
-    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
+    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + ApiKey;
     alert(codess);
     alert(apiUrl);
 
