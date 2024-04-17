@@ -98,8 +98,8 @@ confirm.addEventListener('click', () => {
     var node = document.getElementById('barcodeResult')
     codess = node.textContent
     var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + ApiKey;
-    alert(codess);
-    alert(apiUrl);
+    // alert(codess);
+    // alert(apiUrl);
 
     fetch(apiUrl)
         .then(response => {
