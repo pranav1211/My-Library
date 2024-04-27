@@ -5,21 +5,38 @@ let mediaDevices = navigator.mediaDevices;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    mediaDevices.getUserMedia({
-        video: {
-            facingMode: { exact: 'environment' },
-            width: { ideal: 1280 },
-            height: { ideal: 980 },
-            zoom: 1.0 // Set initial zoom level to 1.0
-        }, audio: false,
-    }).then((stream) => {
-        video.srcObject = stream;
-        video.addEventListener("loadedmetadata", () => {
-            video.play()
-        })
-    }).catch(alert)
 
+    function initializeCamera(zoomLevel = 1.0) {
+        const constraints = {
+            video: {
+                facingMode: { exact: 'environment' },
+                width: { ideal: 1280 },
+                height: { ideal: 980 },
+                zoom: zoomLevel
+            },
+            audio: false
+        };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                video.srcObject = stream;
+                video.addEventListener("loadedmetadata", () => {
+                    video.play();
+                });
+            })
+            .catch(alert);
+    }
+
+    initializeCamera();
     
+    function toggleZoom(zoomLevel) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        initializeCamera(zoomLevel);
+    }
+    toggleZoom(1.0);
+
+
+
 
     function quaggajss() {
         Quagga.init({
@@ -48,16 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and decoded: ", result.codeResult.code);
-                
-                var thecode = result.codeResult.code 
 
-                localStorage.setItem('isbn',thecode)
+                var thecode = result.codeResult.code
+
+                localStorage.setItem('isbn', thecode)
 
                 barcodeResult.innerHTML = localStorage.getItem('isbn')
-                
-                scanButton.style.visibility = 'visible'      
+
+                scanButton.style.visibility = 'visible'
                 scanButton.style.marginTop = '1vh'
-                confirm.style.visibility = 'visible'      
+                confirm.style.visibility = 'visible'
 
                 Quagga.stop();
             });
@@ -68,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scanButton.addEventListener('click', () => {
         quaggajss()
     })
-    
+
     window.addEventListener('beforeunload', function () {
         Quagga.stop();
     });
@@ -114,19 +131,19 @@ var yearofpublish = document.querySelector('#yearofpublish')
 
 
 
-function bookdata(data){
-    window.scrollBy(0,1000)
+function bookdata(data) {
+    window.scrollTo(0, document.body.scrollHeight)
     const book = data.items[0]
-    bookname.innerHTML = book.volumeInfo.title    
-    
+    bookname.innerHTML = book.volumeInfo.title
+
     const authors = book.volumeInfo.authors
-    var authortext = authors ? authors.join(','): 'unknown'
+    var authortext = authors ? authors.join(',') : 'unknown'
     authorname.innerHTML = authortext
 
     const categories = book.volumeInfo.categories
-    var category = categories ? categories.join(','): 'unknown'
+    var category = categories ? categories.join(',') : 'unknown'
     genrename.innerHTML = category
 
     yearofpublish.innerHTML = book.volumeInfo.publishedDate
-    
+
 }
