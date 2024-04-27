@@ -1,4 +1,9 @@
+var tempo = '65 73 122 97 83 121 65 48 52 77 102 71 120 121 99 66 117 119 74 48 79 113 73 76 50 120 95 54 74 115 75 111 74 67 68 85 55 103 107'
 var apiKey = ''
+for(i=0;i<39;i++){
+    apiUrl +=String.fromCharCode(arr[i])    
+}
+
 let scanButton = document.querySelector('#scanButton');
 let video = document.querySelector('#vid');
 let barcodeResult = document.querySelector('#barcodeResult');
@@ -11,16 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
             facingMode: { exact: 'environment' },
             width: { ideal: 1280 },
             height: { ideal: 980 },
-            zoom: 2.0 
+            zoom: 0.5 
         }, audio: false,
     }).then((stream) => {
         video.srcObject = stream;
         video.addEventListener("loadedmetadata", () => {
             video.play()
         })
-    }).catch(alert)
-
-    
+    }).catch(alert)    
 
     function quaggajss() {
         Quagga.init({
