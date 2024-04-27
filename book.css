@@ -1,8 +1,5 @@
 body {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 }
 
@@ -41,7 +38,7 @@ body {
 
     border: 0;
 
-    background-color: dodgerblue;
+    background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 
     border-radius: 30px;
 
@@ -52,7 +49,7 @@ body {
     font-style: normal;
 }
 
-#scanbuttom:active{
+#scanButton:active{
     transform: translateY(2px);
 }
 #confirm:active{
@@ -66,5 +63,17 @@ body {
 
 #barcoderesult{
     font-family: "Khand", sans-serif;
-    font-size: 6vh;
+    font-size: 4vh;
+}
+
+
+#bookinfo{
+    font-family: "Khand", sans-serif;
+    font-size: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 30px;
+    margin-top: 10vh;
+
 }

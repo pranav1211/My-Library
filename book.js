@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 scanButton.style.visibility = 'visible'      
                 scanButton.style.marginTop = '1vh'
+                confirm.style.visibility = 'visible'      
 
                 Quagga.stop();
             });
@@ -77,31 +78,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
 var confirm = document.querySelector('#confirm')
 
-// const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${code}&key=${apiKey}`;
+var apiKey = ''
+var isbn = localStorage.getItem('isbn')
+const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
 
-// confirm.addEventListener('click', () => {
+confirm.addEventListener('click', () => {
 
-//     var node = document.getElementById('barcodeResult')
-//     codess = node.textContent
-//     var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
-//     alert(codess);
-//     alert(apiUrl);
+    var node = document.getElementById('barcodeResult')
+    codess = node.textContent
+    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
+    alert(codess);
+    alert(apiUrl);
 
-//     fetch(apiUrl)
-//         .then(response => {
-//             if (!response.ok) {
-//                 alert('Network response was not ok');
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             const book = data.items[0];
-//             barcodeResult.textContent = book.volumeInfo.title;
-//         })
-//         .catch(error => {
-//             alert('There was a problem with the fetch operation');
-//             console.error('Fetch error:', error);
-//         });
-// });
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                alert('Network response was not ok');
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            bookdata(data)
+        })
+        .catch(error => {
+            alert('There was a problem with the fetch operation');
+            console.error('Fetch error:', error);
+        });
+});
+
+
+var bookname = document.querySelector('#bookname')
+var authorname = document.querySelector('#authorname')
+var genrename = document.querySelector('#genrename')
+var yearofpublish = document.querySelector('#yearofpublish')
+
+
+
+function bookdata(data){
+    const book = data.items[0]
+    bookname.innerHTML = book.volumeInfo.title    
+    
+    const authors = book.volumeInfo.authors
+    var authortext = authors ? authors.join(','): 'unknown'
+    authorname.innerHTML = authortext
+
+    const categories = book.volumeInfo.categories
+    var category = categories ? categories.join(','): 'unknown'
+    genrename.innerHTML = category
+
+    yearofpublish.innerHTML = book.volumeInfo.publishedDate
+    
+}
