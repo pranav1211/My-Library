@@ -25,7 +25,7 @@ Changelog:
          -> created a landing page
          -> API call to get book name enabled
 
-   ## V 0.3:
+   ## V 0.4:
       28/04/2024 :
          -> changed some sizes adn styles of buttons.
          -> the scan again button appears after first scan along with confirm again button
