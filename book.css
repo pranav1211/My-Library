@@ -12,9 +12,9 @@ body {
 }
 
 #scanButton{
-    width: 43vh;
-    height: 10vh;
-    font-size: 6vh;
+    width: 20vh;
+    height: 5.5vh;
+    font-size: 4vh;
 
     border: 0;
 
@@ -31,7 +31,8 @@ body {
 }
 
 #confirm{
-    width: 40vh;
+    visibility: hidden;
+    width: 23vh;
     height: 6vh;
     font-size: 4vh;
     text-align: center;

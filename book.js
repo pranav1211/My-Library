@@ -1,9 +1,10 @@
-let thecode
+let scanButton = document.querySelector('#scanButton');
 
-document.addEventListener('DOMContentLoaded', () => {
-    let scanButton = document.querySelector('#scanButton');
+scanButton.addEventListener('click', () => {
+    
     let video = document.querySelector('#vid');
     let barcodeResult = document.querySelector('#barcodeResult');
+
     let mediaDevices = navigator.mediaDevices;
 
     mediaDevices.getUserMedia({
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }).catch(alert)
 
-    // Configure QuaggaJS
+    
 
     function quaggajss() {
         Quagga.init({
@@ -39,29 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log("Quagga initialization succeeded");
 
-            // Start QuaggaJS when the "Scan Barcode" button is clicked
+
             function startcan() {
                 Quagga.start();
             }
 
             setInterval(startcan, 3000)
 
-            // Detect barcode
+
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and decoded: ", result.codeResult.code);
-                barcodeResult.textContent = result.codeResult.code;                
-                
-                var p = document.createElement('p')
-                p.id = ('barcoderesult')
-                barcodeResult.appendChild(p)
+                barcodeResult.textContent = result.codeResult.code;
 
-                // Perform actions based on the detected barcode
-                // Example: Redirect to a URL based on the barcode value
-                // if (result.codeResult.code === "SOME_BARCODE_VALUE") {
-                //     window.location.href = "https://example.com/" + result.codeResult.code;
-                // }
+                alert(result.codeResult.code)
 
-                // Stop QuaggaJS after a barcode is detected
                 Quagga.stop();
             });
 
@@ -69,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     quaggajss()
     scanButton.addEventListener('click', () => {
-        quaggajss() 
+        quaggajss()
     })
 
 
@@ -79,42 +71,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+
 var confirm = document.querySelector('#confirm')
 
-var ApiKey
- 
-fetch('/api/key')
-    .then(response => response.text())
-    .then(apiKey => {
-        ApiKey = apiKey;
-    })
-    .catch(error => {
-        alert('Error fetching API key:', error);
-    });
+// const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${code}&key=${apiKey}`;
 
 
-confirm.addEventListener('click', () => {
+// confirm.addEventListener('click', () => {
 
-    var node = document.getElementById('barcodeResult')
-    codess = node.textContent
-    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + ApiKey;
-    // alert(codess);
-    // alert(apiUrl);
+//     var node = document.getElementById('barcodeResult')
+//     codess = node.textContent
+//     var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
+//     alert(codess);
+//     alert(apiUrl);
 
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                alert('Network response was not ok');
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {         
-            const book = data.items[0];
-            barcodeResult.textContent = book.volumeInfo.title;            
-        })
-        .catch(error => {
-            alert('There was a problem with the fetch operation');
-            console.error('Fetch error:', error);
-        });
-});
+//     fetch(apiUrl)
+//         .then(response => {
+//             if (!response.ok) {
+//                 alert('Network response was not ok');
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             const book = data.items[0];
+//             barcodeResult.textContent = book.volumeInfo.title;
+//         })
+//         .catch(error => {
+//             alert('There was a problem with the fetch operation');
+//             console.error('Fetch error:', error);
+//         });
+// });
