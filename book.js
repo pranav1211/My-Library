@@ -1,3 +1,4 @@
+var apiKey = ''
 let scanButton = document.querySelector('#scanButton');
 let video = document.querySelector('#vid');
 let barcodeResult = document.querySelector('#barcodeResult');
@@ -78,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 var confirm = document.querySelector('#confirm')
 
-var apiKey = ''
 var isbn = localStorage.getItem('isbn')
 const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
