@@ -1,11 +1,9 @@
 let scanButton = document.querySelector('#scanButton');
+let video = document.querySelector('#vid');
+let barcodeResult = document.querySelector('#barcodeResult');
+let mediaDevices = navigator.mediaDevices;
 
-scanButton.addEventListener('click', () => {
-    
-    let video = document.querySelector('#vid');
-    let barcodeResult = document.querySelector('#barcodeResult');
-
-    let mediaDevices = navigator.mediaDevices;
+document.addEventListener('DOMContentLoaded', () => {
 
     mediaDevices.getUserMedia({
         video: {
@@ -51,8 +49,9 @@ scanButton.addEventListener('click', () => {
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and decoded: ", result.codeResult.code);
                 barcodeResult.textContent = result.codeResult.code;
-
-                alert(result.codeResult.code)
+                var thecode = result.codeResult.code 
+                alert(thecode)
+                scanButton.computedStyleMap.visibility = 'visible'             
 
                 Quagga.stop();
             });
@@ -63,9 +62,7 @@ scanButton.addEventListener('click', () => {
     scanButton.addEventListener('click', () => {
         quaggajss()
     })
-
-
-    // Stop QuaggaJS and release camera when leaving the page
+    
     window.addEventListener('beforeunload', function () {
         Quagga.stop();
     });

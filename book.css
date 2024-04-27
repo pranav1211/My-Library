@@ -3,6 +3,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
 }
 
 #buttons {
@@ -12,21 +13,22 @@ body {
 }
 
 #scanButton{
-    width: 20vh;
-    height: 5.5vh;
-    font-size: 4vh;
-
+    width: 25vh;
+    height: 6vh;
+    font-size: 4vh;    
     border: 0;
+    visibility: hidden;
+    
 
-    background-color: dodgerblue;
+    background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 
     border-radius: 30px;
 
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-    font-family: "Khand", sans-serif;
-    font-weight: 600;
+    font-family: "Khand", sans-serif;    
     font-style: normal;
+    
 
 }
 
