@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 barcodeResult.textContent = result.codeResult.code;
                 var thecode = result.codeResult.code 
                 alert(thecode)
-                scanButton.computedStyleMap.visibility = 'visible'             
+                scanButton.style.visibility = 'visible'             
 
                 Quagga.stop();
             });
