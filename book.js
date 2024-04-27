@@ -48,10 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Quagga.onDetected(function (result) {
                 console.log("Barcode detected and decoded: ", result.codeResult.code);
-                barcodeResult.textContent = result.codeResult.code;
+                
                 var thecode = result.codeResult.code 
-                alert(thecode)
-                scanButton.style.visibility = 'visible'             
+
+                localStorage.setItem('isbn',thecode)
+
+                barcodeResult.innerHTML = localStorage.getItem('isbn')
+                
+                scanButton.style.visibility = 'visible'      
+                scanButton.style.marginTop = '1vh'
 
                 Quagga.stop();
             });
