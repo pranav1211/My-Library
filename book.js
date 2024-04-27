@@ -115,7 +115,7 @@ var yearofpublish = document.querySelector('#yearofpublish')
 
 
 function bookdata(data){
-    window.scrollBy(0,100)
+    window.scrollBy(0,1000)
     const book = data.items[0]
     bookname.innerHTML = book.volumeInfo.title    
     
