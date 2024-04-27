@@ -88,8 +88,6 @@ confirm.addEventListener('click', () => {
     var node = document.getElementById('barcodeResult')
     codess = node.textContent
     var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
-    alert(codess);
-    alert(apiUrl);
 
     fetch(apiUrl)
         .then(response => {
@@ -117,6 +115,7 @@ var yearofpublish = document.querySelector('#yearofpublish')
 
 
 function bookdata(data){
+    window.scrollBy(0,100)
     const book = data.items[0]
     bookname.innerHTML = book.volumeInfo.title    
     
