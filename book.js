@@ -1,8 +1,5 @@
 var tempo = '65 73 122 97 83 121 65 48 52 77 102 71 120 121 99 66 117 119 74 48 79 113 73 76 50 120 95 54 74 115 75 111 74 67 68 85 55 103 107'
 var apiKey = ''
-for(i=0;i<39;i++){
-    apiUrl +=String.fromCharCode(arr[i])    
-}
 
 let scanButton = document.querySelector('#scanButton');
 let video = document.querySelector('#vid');
@@ -88,6 +85,9 @@ const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=$
 
 confirm.addEventListener('click', () => {
 
+    for(i=0;i<39;i++){
+        apiUrl +=String.fromCharCode(arr[i])    
+    }
     var node = document.getElementById('barcodeResult')
     codess = node.textContent
     var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
