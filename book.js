@@ -100,8 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
     
-    function bookdata(data) {
-        window.scrollTo(0, document.body.scrollHeight);
+    function bookdata(data) {        
         const book = data.items[0];
         bookname.innerHTML = 'Book Name: ' + book.volumeInfo.title;
 
