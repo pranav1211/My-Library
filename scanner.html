@@ -1,69 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Barcode Scanner</title>
+    <title>PWA Barcode Scanner</title>
 </head>
 <body>
-    <input type="file" accept="image/*" capture="environment" id="cameraInput">
-    <button id="scanButton" style="visibility: hidden;">Scan Again</button>
+    <video id="video" width="600" height="400" autoplay></video>
     <div id="barcodeResult"></div>
-    <button id="confirm" style="visibility: hidden;">Confirm</button>
-    <div id="bookDetails">
-        <div id="bookname"></div>
-        <div id="authorname"></div>
-        <div id="genrename"></div>
-        <div id="yearofpublish"></div>
+    <button id="scanButton">Scan Again</button>
+    <button id="confirm">Fetch Book Info</button>
+    <div>
+        <p id="bookname">Book Name: </p>
+        <p id="authorname">Author: </p>
+        <p id="genrename">Genre: </p>
+        <p id="yearofpublish">Year of Publish: </p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
     <script>
-        var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
+        var apiKey = 'AIzaSyA04MfGxy'+'cBuwJ0Oq'+'IL2x_6JsKoJCDU7gk';
         let scanButton = document.querySelector('#scanButton');
+        let video = document.querySelector('#video');
         let barcodeResult = document.querySelector('#barcodeResult');
-        let cameraInput = document.querySelector('#cameraInput');
         let confirm = document.querySelector('#confirm');
 
         document.addEventListener('DOMContentLoaded', () => {
+            if (!('BarcodeDetector' in window)) {
+                alert('Barcode Detector is not supported by this browser.');
+                return;
+            }
 
-            cameraInput.addEventListener('change', (event) => {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        Quagga.decodeSingle({
-                            src: e.target.result,
-                            numOfWorkers: 0,  // Needs to be 0 when used with decodeSingle
-                            decoder: {
-                                readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader"]
-                            }
-                        }, function (result) {
-                            if (result && result.codeResult) {
-                                console.log("Barcode detected and decoded: ", result.codeResult.code);
+            let mediaDevices = navigator.mediaDevices;
 
-                                var thecode = result.codeResult.code;
+            mediaDevices.getUserMedia({
+                video: {
+                    facingMode: { exact: 'environment' },
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 }
+                }, audio: false,
+            }).then((stream) => {
+                video.srcObject = stream;
+                video.addEventListener("loadedmetadata", () => {
+                    video.play();
+                    startBarcodeDetection();
+                });
+            }).catch(alert);
 
-                                localStorage.setItem('isbn', thecode);
+            function startBarcodeDetection() {
+                const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
+                function detectBarcodes() {
+                    barcodeDetector.detect(video).then((barcodes) => {
+                        if (barcodes.length > 0) {
+                            barcodes.forEach(barcode => {
+                                console.log("Barcode detected and decoded: ", barcode.rawValue);
+                                localStorage.setItem('isbn', barcode.rawValue);
                                 barcodeResult.innerHTML = localStorage.getItem('isbn');
 
                                 scanButton.style.visibility = 'visible';
                                 scanButton.style.marginTop = '1vh';
                                 confirm.style.visibility = 'visible';
-                            } else {
-                                console.log("Barcode not detected.");
-                            }
-                        });
-                    };
-                    reader.readAsDataURL(file);
+                            });
+                        }
+                    }).catch(err => {
+                        console.error('Barcode detection failed:', err);
+                    });
                 }
-            });
+
+                setInterval(detectBarcodes, 1000);
+            }
 
             scanButton.addEventListener('click', () => {
-                cameraInput.click();
+                startBarcodeDetection();
             });
 
             window.addEventListener('beforeunload', function () {
-                Quagga.stop();
+                if (video.srcObject) {
+                    let tracks = video.srcObject.getTracks();
+                    tracks.forEach(track => track.stop());
+                }
             });
         });
 
@@ -100,17 +113,17 @@
         function bookdata(data) {
             window.scrollTo(0, document.body.scrollHeight);
             const book = data.items[0];
-            bookname.innerHTML = book.volumeInfo.title;
+            bookname.innerHTML = 'Book Name: ' + book.volumeInfo.title;
 
             const authors = book.volumeInfo.authors;
             var authortext = authors ? authors.join(',') : 'unknown';
-            authorname.innerHTML = authortext;
+            authorname.innerHTML = 'Author: ' + authortext;
 
             const categories = book.volumeInfo.categories;
             var category = categories ? categories.join(',') : 'unknown';
-            genrename.innerHTML = category;
+            genrename.innerHTML = 'Genre: ' + category;
 
-            yearofpublish.innerHTML = book.volumeInfo.publishedDate;
+            yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
         }
     </script>
 </body>
