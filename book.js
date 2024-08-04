@@ -70,8 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     scanInterval = setInterval(detectBarcodes, 1000);
     // }
 
-    confirm.addEventListener('click', () => {
-        // Ensure isbn is not null or empty
+    confirm.addEventListener('click', () => {        
         if (!isbn) {
             alert('No barcode scanned or barcode value is empty.');
             return;
