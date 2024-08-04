@@ -89,8 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.items && data.items.length > 0) {
-                    bookdata(data);
-                    console.log(data)
+                    bookdata(data);                    
                 } else {
                     alert('No book information found for the given ISBN.');
                 }
