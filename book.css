@@ -10,6 +10,10 @@
 #scanButton{
     margin-right: 20px;
 }
+#confirm{
+    justify-self: center;
+    display: flex;
+}
 #videodiv{
     width: 99%;
     border: 2px solid black;
