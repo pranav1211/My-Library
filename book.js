@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
-                        barcodeResult.innerHTML = isbn;
+                        barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
                         barcodeResult.style.fontSize = '5vw';
                         fetchinfo();
                     });
