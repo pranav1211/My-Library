@@ -1,4 +1,4 @@
-#scanButton,#confirm {
+#stopscan,#scanButton,#confirm {
     width: 40vw;
     height: 10vw;
     font-size: 6vw;
@@ -7,7 +7,7 @@
     background-color: rgb(207, 207, 253);
 }
 
-#scanButton,#stopscan{
+#scanButton{
     margin-right: 20px;
 }
 #confirm{
