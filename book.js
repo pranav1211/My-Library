@@ -99,8 +99,8 @@ function bookdata(data) {
 
     yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
 
-    bookname.style.fontSize = '5vw'
-    authorname.style.fontSize = '5vw'
-    genrename.style.fontSize = '5vw'
-    yearofpublish.style.fontSize = '5vw'
+    bookname.style.fontSize = '4vw';
+    authorname.style.fontSize = '4vw';
+    genrename.style.fontSize = '4vw';
+    yearofpublish.style.fontSize = '4vw';
 }
