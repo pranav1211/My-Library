@@ -117,9 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const categories = book.volumeInfo.categories;
         var category = categories ? categories.join(',') : 'unknown';
-        genrename.innerHTML = 'Genre: ' + category;
+        var genre = category
+        genrename.innerHTML =`Genre : <strong>${genre}</strong>`;
 
-        yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
+        var publish = book.volumeInfo.publishedDate
+        yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
 
         var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
         if (!imagethumb){
@@ -127,10 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else{
             imagesource.src = imagethumb
-        }
-        
+        }      
          
-
         bookname.style.fontSize = '4vw';        
         genrename.style.fontSize = '4vw';
         yearofpublish.style.fontSize = '4vw';
