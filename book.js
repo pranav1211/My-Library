@@ -4,71 +4,71 @@ let stopScanButton = document.querySelector('#stopscan');
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
 let confirm = document.querySelector('#confirm');
-var isbn;
+var isbn = 9780099560432;
 let barcodeDetector;
 let scanInterval;
 let stream;
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (!('BarcodeDetector' in window)) {
-        alert('Barcode Detector is not supported by this browser, Sorry  :( ');
-        return;
-    }
+    // if (!('BarcodeDetector' in window)) {
+    //     alert('Barcode Detector is not supported by this browser, Sorry  :( ');
+    //     return;
+    // }
 
-    startScanButton.addEventListener('click', () => {
-        if (stream) {            
-            return;
-        }
+    // startScanButton.addEventListener('click', () => {
+    //     if (stream) {            
+    //         return;
+    //     }
 
-        navigator.mediaDevices.getUserMedia({
-            video: {
-                facingMode: { exact: 'environment' },
-                width: { ideal: 1920 },
-                height: { ideal: 1080 }
-            }, audio: false,
-        }).then((mediaStream) => {
-            stream = mediaStream;
-            video.srcObject = stream;
-            video.addEventListener("loadedmetadata", () => {
-                video.play();
-                startBarcodeDetection();
-            });
-        }).catch(alert);
-    });
+    //     navigator.mediaDevices.getUserMedia({
+    //         video: {
+    //             facingMode: { exact: 'environment' },
+    //             width: { ideal: 1920 },
+    //             height: { ideal: 1080 }
+    //         }, audio: false,
+    //     }).then((mediaStream) => {
+    //         stream = mediaStream;
+    //         video.srcObject = stream;
+    //         video.addEventListener("loadedmetadata", () => {
+    //             video.play();
+    //             startBarcodeDetection();
+    //         });
+    //     }).catch(alert);
+    // });
 
-    stopScanButton.addEventListener('click', () => {
-        if (stream) {
-            let tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-            video.srcObject = null;
-            stream = null;
+    // stopScanButton.addEventListener('click', () => {
+    //     if (stream) {
+    //         let tracks = stream.getTracks();
+    //         tracks.forEach(track => track.stop());
+    //         video.srcObject = null;
+    //         stream = null;
 
-            if (scanInterval) {
-                clearInterval(scanInterval);
-                scanInterval = null;
-            }
-        }
-    });
+    //         if (scanInterval) {
+    //             clearInterval(scanInterval);
+    //             scanInterval = null;
+    //         }
+    //     }
+    // });
 
-    function startBarcodeDetection() {
-        barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+    // function startBarcodeDetection() {
+    //     barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
-        function detectBarcodes() {
-            barcodeDetector.detect(video).then((barcodes) => {
-                if (barcodes.length > 0) {
-                    barcodes.forEach(barcode => {
-                        console.log("Barcode detected and decoded: ", barcode.rawValue);
-                        isbn = barcode.rawValue;
-                        barcodeResult.innerHTML = isbn;
-                        barcodeResult.style.fontSize = '5vw';
-                    });
-                }
-            }).catch(err => {
-                console.error('Barcode detection failed:', err);
-            });
-        }
-        scanInterval = setInterval(detectBarcodes, 1000);
-    }
+    //     function detectBarcodes() {
+    //         barcodeDetector.detect(video).then((barcodes) => {
+    //             if (barcodes.length > 0) {
+    //                 barcodes.forEach(barcode => {
+    //                     console.log("Barcode detected and decoded: ", barcode.rawValue);
+    //                     isbn = barcode.rawValue;
+    //                     barcodeResult.innerHTML = isbn;
+    //                     barcodeResult.style.fontSize = '5vw';
+    //                 });
+    //             }
+    //         }).catch(err => {
+    //             console.error('Barcode detection failed:', err);
+    //         });
+    //     }
+    //     scanInterval = setInterval(detectBarcodes, 1000);
+    // }
 
     confirm.addEventListener('click', () => {
         var node = document.getElementById('barcodeResult');
