@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 
     confirm.addEventListener('click', () => {
-        var node = isbn
+        var node = String(isbn)
         var codess = node.textContent;
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${codess}&key=${apiKey}`;
 
