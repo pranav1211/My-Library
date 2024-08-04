@@ -1,4 +1,4 @@
-var apiKey = 'AIzaSyA04MfGxy'+'cBuwJ0Oq'+'IL2x_6JsKoJCDU7gk';
+var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
 let scanButton = document.querySelector('#scanButton');
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
@@ -13,53 +13,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mediaDevices = navigator.mediaDevices;
 
-    mediaDevices.getUserMedia({
-        video: {
-            facingMode: { exact: 'environment' },
-            width: { ideal: 1920 },  // Landscape width
-            height: { ideal: 1080 }  // Landscape height
-        }, audio: false,
-    }).then((stream) => {
-        video.srcObject = stream;
-        video.addEventListener("loadedmetadata", () => {
-            video.play();
+    function start() {
+        mediaDevices.getUserMedia({
+            video: {
+                facingMode: { exact: 'environment' },
+                width: { ideal: 1920 },  // Landscape width
+                height: { ideal: 1080 }  // Landscape height
+            }, audio: false,
+        }).then((stream) => {
+            video.srcObject = stream;
+            video.addEventListener("loadedmetadata", () => {
+                video.play();
+                startBarcodeDetection();
+            });
+        }).catch(alert);
+
+        function startBarcodeDetection() {
+            const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+
+            function detectBarcodes() {
+                barcodeDetector.detect(video).then((barcodes) => {
+                    if (barcodes.length > 0) {
+                        barcodes.forEach(barcode => {
+                            console.log("Barcode detected and decoded: ", barcode.rawValue);
+                            isbn = barcode.rawValue;
+                            barcodeResult.innerHTML = isbn; // Update to use isbn directly
+
+                            scanButton.style.visibility = 'visible';
+                            scanButton.style.marginTop = '1vh';
+                            confirm.style.visibility = 'visible';
+                        });
+                    }
+                }).catch(err => {
+                    console.error('Barcode detection failed:', err);
+                });
+            }
+            setInterval(detectBarcodes, 1000);
+        }
+
+        scanButton.addEventListener('click', () => {
             startBarcodeDetection();
         });
-    }).catch(alert);
 
-    function startBarcodeDetection() {
-        const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
-
-        function detectBarcodes() {
-            barcodeDetector.detect(video).then((barcodes) => {
-                if (barcodes.length > 0) {
-                    barcodes.forEach(barcode => {
-                        console.log("Barcode detected and decoded: ", barcode.rawValue);
-                        isbn = barcode.rawValue;
-                        barcodeResult.innerHTML = isbn; // Update to use isbn directly
-
-                        scanButton.style.visibility = 'visible';
-                        scanButton.style.marginTop = '1vh';
-                        confirm.style.visibility = 'visible';
-                    });
-                }
-            }).catch(err => {
-                console.error('Barcode detection failed:', err);
-            });
-        }
-        setInterval(detectBarcodes, 1000);
+        window.addEventListener('beforeunload', function () {
+            if (video.srcObject) {
+                let tracks = video.srcObject.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        });
     }
-
-    scanButton.addEventListener('click', () => {
-        startBarcodeDetection();
-    });
-
-    window.addEventListener('beforeunload', function () {
-        if (video.srcObject) {
-            let tracks = video.srcObject.getTracks();
-            tracks.forEach(track => track.stop());
-        }
-    });
 });
 
 confirm.addEventListener('click', () => {
