@@ -1,4 +1,4 @@
-var apiKey = 'AIzaSyA04MfGxy'+'cBuwJ0Oq'+'IL2x_6JsKoJCDU7gk';
+var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
 let scanButton = document.querySelector('#scanButton');
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
@@ -12,19 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let mediaDevices = navigator.mediaDevices;
+    scanButton.addEventListener('click', () => {
 
-    mediaDevices.getUserMedia({
-        video: {
-            facingMode: { exact: 'environment' },
-            width: { ideal: 1920 },
-            height: { ideal: 1080 }
-        }, audio: false,
-    }).then((stream) => {
-        video.srcObject = stream;
-        video.addEventListener("loadedmetadata", () => {
-            video.play();            
-        });
-    }).catch(alert);
+        mediaDevices.getUserMedia({
+            video: {
+                facingMode: { exact: 'environment' },
+                width: { ideal: 1920 },
+                height: { ideal: 1080 }
+            }, audio: false,
+        }).then((stream) => {
+            video.srcObject = stream;
+            video.addEventListener("loadedmetadata", () => {
+                video.play();
+                startBarcodeDetection();
+            });
+        }).catch(alert);
+        
+    });
 
     function startBarcodeDetection() {
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
@@ -46,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(detectBarcodes, 1000);
     }
 
-    scanButton.addEventListener('click', () => {
-        startBarcodeDetection();
-    });
+
 
     window.addEventListener('beforeunload', function () {
         if (video.srcObject) {
