@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     startScanButton.addEventListener('click', () => {
-        if (stream) {
-            // If already streaming, don't start another stream
+        if (stream) {            
             return;
         }
 
