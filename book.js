@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaDevices.getUserMedia({
         video: {
             facingMode: { exact: 'environment' },
-            width: { ideal: 1920 },  // Landscape width
-            height: { ideal: 1080 }  // Landscape height
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
         }, audio: false,
     }).then((stream) => {
         video.srcObject = stream;
