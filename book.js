@@ -1,5 +1,6 @@
 var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
 let scanButton = document.querySelector('#scanButton');
+let stopscan = document.querySelector("#stopscan")
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
 let confirm = document.querySelector('#confirm');
@@ -13,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mediaDevices = navigator.mediaDevices;
     scanButton.addEventListener('click', () => {
-
+        if (stream){
+            return;
+        }
         mediaDevices.getUserMedia({
             video: {
                 facingMode: { exact: 'environment' },
@@ -27,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 startBarcodeDetection();
             });
         }).catch(alert);
-        
+
     });
 
     function startBarcodeDetection() {
