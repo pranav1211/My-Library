@@ -71,10 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // }
 
     confirm.addEventListener('click', () => {
-        var node = isbn
-        var codess = node.textContent;
-        var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${codess}&key=${apiKey}`;
-
+        // Ensure isbn is not null or empty
+        if (!isbn) {
+            alert('No barcode scanned or barcode value is empty.');
+            return;
+        }
+    
+        var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
+    
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
@@ -84,14 +88,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
-                bookdata(data);
+                if (data.items && data.items.length > 0) {
+                    bookdata(data);
+                } else {
+                    alert('No book information found for the given ISBN.');
+                }
             })
             .catch(error => {
                 alert('There was a problem with the fetch operation');
                 console.error('Fetch error:', error);
             });
     });
-
+    
     function bookdata(data) {
         window.scrollTo(0, document.body.scrollHeight);
         const book = data.items[0];
