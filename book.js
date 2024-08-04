@@ -1,4 +1,4 @@
-var apiKey = 'AIzaSyA04MfGxy'+'cBuwJ0Oq'+'IL2x_6JsKoJCDU7gk';
+var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
 let startScanButton = document.querySelector('#scanButton');
 let stopScanButton = document.querySelector('#stopscan');
 let video = document.querySelector('#video');
@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
     //     scanInterval = setInterval(detectBarcodes, 1000);
     // }
 
-    confirm.addEventListener('click', () => {        
+    confirm.addEventListener('click', () => {
         if (!isbn) {
             alert('No barcode scanned or barcode value is empty.');
             return;
         }
-    
+
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
-    
+
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.items && data.items.length > 0) {
-                    bookdata(data);                    
+                    bookdata(data);
                 } else {
                     alert('No book information found for the given ISBN.');
                 }
@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Fetch error:', error);
             });
     });
-    
-    function bookdata(data) {        
+
+    function bookdata(data) {
         const book = data.items[0];
         bookname.innerHTML = 'Book Name: ' + book.volumeInfo.title;
 
@@ -115,7 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
         yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
 
         var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
-        imagesource.src = imagethumb;
+        if (imagethumb) {
+            imagesource.src = imagethumb;
+        } else {
+            imagesource.src = 'yes.png'; // Fallback image
+        }
 
         bookname.style.fontSize = '4vw';
         authorname.style.fontSize = '4vw';
