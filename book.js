@@ -13,21 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mediaDevices = navigator.mediaDevices;
 
-    function start() {
-        mediaDevices.getUserMedia({
-            video: {
-                facingMode: { exact: 'environment' },
-                width: { ideal: 1920 },  // Landscape width
-                height: { ideal: 1080 }  // Landscape height
-            }, audio: false,
-        }).then((stream) => {
-            video.srcObject = stream;
-            video.addEventListener("loadedmetadata", () => {
-                video.play();
-                startBarcodeDetection();
-            });
-        }).catch(alert);
 
+    mediaDevices.getUserMedia({
+        video: {
+            facingMode: { exact: 'environment' },
+            width: { ideal: 1920 },  // Landscape width
+            height: { ideal: 1080 }  // Landscape height
+        }, audio: false,
+    }).then((stream) => {
+        video.srcObject = stream;
+        video.addEventListener("loadedmetadata", () => {
+            video.play();
+            startBarcodeDetection();
+        });
+    }).catch(alert);
+    
+    function start() {
         function startBarcodeDetection() {
             const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
@@ -66,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 scanButton.addEventListener('click', () => {
     start()
 });
-
 confirm.addEventListener('click', () => {
     var node = document.getElementById('barcodeResult');
     codess = node.textContent;
