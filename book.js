@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
                         barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
-                        barcodeResult.style.fontSize = '5vw';
+                        barcodeResult.style.fontSize = '3vw';
                         fetchinfo();
                     });
                 }
@@ -131,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
             imagesource.src = imagethumb
         }      
          
-        bookname.style.fontSize = '4vw';        
-        genrename.style.fontSize = '4vw';
-        yearofpublish.style.fontSize = '4vw';
+        bookname.style.fontSize = '5vw';        
+        genrename.style.fontSize = '5vw';
+        yearofpublish.style.fontSize = '5vw';
     }    
 });
