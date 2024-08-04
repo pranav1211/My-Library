@@ -13,10 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let mediaDevices = navigator.mediaDevices;
+
     scanButton.addEventListener('click', () => {
         if (stream){
             return;
         }
+
         mediaDevices.getUserMedia({
             video: {
                 facingMode: { exact: 'environment' },
@@ -30,7 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 startBarcodeDetection();
             });
         }).catch(alert);
+    });
 
+    stopscan.addEventListener('click',()=>{
+        if (stream){
+            let tracks = stream.getTracks();
+            tracks.forEach(track =>track.stop())
+            video.srcObject = null;
+            stream = null;
+
+            if (scanInterval) {
+                clearInterval(scanInterval);
+                scanInterval = null;
+            }
+        }
     });
 
     function startBarcodeDetection() {
@@ -50,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Barcode detection failed:', err);
             });
         }
-        setInterval(detectBarcodes, 1000);
+        scaninterval = setInterval(detectBarcodes, 1000);
     }
 
 
