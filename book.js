@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
                         barcodeResult.innerHTML = isbn;
-                        barcodeResult.style.fontSize = '4vw';
+                        barcodeResult.style.fontSize = '5vw';
                     });
                 }
             }).catch(err => {
