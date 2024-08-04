@@ -16,6 +16,7 @@
     justify-content: center;
     margin-bottom: 60px;
     margin-top: 30px;
+    aspect-ratio: 16/9;
 }
 
 #buttons{
