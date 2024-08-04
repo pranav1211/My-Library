@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
+scanButton.addEventListener('click',start())
 confirm.addEventListener('click', () => {
     var node = document.getElementById('barcodeResult');
     codess = node.textContent;
