@@ -12,6 +12,7 @@
 }
 #confirm{
     text-align: center;
+    display: inline-block;
 }
 #videodiv{
     width: 99%;
