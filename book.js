@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
 
-        var imagethumb = book.volumeInfo.imageLinks.thumbnail;
+        var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
         imagesource.src = imagethumb;
 
         bookname.style.fontSize = '4vw';
