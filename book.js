@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaDevices.getUserMedia({
         video: {
             facingMode: { exact: 'environment' },
-            width: { ideal: 1920 },
-            height: { ideal: 1080 }
+            width: { ideal: 1920 },  // Landscape width
+            height: { ideal: 1080 }  // Landscape height
         }, audio: false,
     }).then((stream) => {
         video.srcObject = stream;
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (barcodes.length > 0) {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
-                        isbn = barcode.rawValue
-                        barcodeResult.innerHTML = localStorage.getItem('isbn');
+                        isbn = barcode.rawValue;
+                        barcodeResult.innerHTML = isbn; // Update to use isbn directly
 
                         scanButton.style.visibility = 'visible';
                         scanButton.style.marginTop = '1vh';
@@ -62,13 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
-
 confirm.addEventListener('click', () => {
     var node = document.getElementById('barcodeResult');
     codess = node.textContent;
-    var apiUrl = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + codess + '&key=' + apiKey;
+    var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${codess}&key=${apiKey}`;
 
     fetch(apiUrl)
         .then(response => {

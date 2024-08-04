@@ -16,7 +16,7 @@
     justify-content: center;
     margin-bottom: 60px;
     margin-top: 30px;
-    aspect-ratio: 16/9;
+    
 }
 
 #buttons{
@@ -26,4 +26,21 @@
 
 #bookdetails{
     font-size: 8vw;
+}
+
+/* Ensure the container maintains landscape aspect ratio */
+#videodiv {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Landscape aspect ratio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ensure the video element scales correctly within the container */
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire container */
 }
