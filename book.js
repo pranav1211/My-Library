@@ -8,6 +8,7 @@ var isbn = 9780099560432;
 let barcodeDetector;
 let scanInterval;
 let stream;
+let imagesource = document.querySelector("thumbnail")
 
 document.addEventListener('DOMContentLoaded', () => {
     // if (!('BarcodeDetector' in window)) {
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
 
         var imagethumb = book.volumeInfo.imageLinks.thumbnail
-        console.log(imagethumb)
+        
 
         bookname.style.fontSize = '4vw';
         authorname.style.fontSize = '4vw';
