@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>My Library</title>
+    <link rel="stylesheet" href="book.css">
 </head>
+
 <body>
-    <video id="video" width="600" height="400" autoplay></video>
+    <div id="videodiv">
+        <video id="video" width="600" height="400" autoplay></video>
+    </div>
     <div id="barcodeResult"></div>
-    <button id="scanButton">Scan Again</button>
-    <button id="confirm">Fetch Book Info</button>
-    <div>
+    <div id="buttons">
+        <button id="scanButton">Scan</button>
+        <button id="confirm">Fetch Info</button>
+    </div>
+    <div id="bookdetails">
         <p id="bookname">Book Name: </p>
         <p id="authorname">Author: </p>
         <p id="genrename">Genre: </p>
@@ -17,4 +24,5 @@
 
     <script src="book.js"></script>
 </body>
+
 </html>
