@@ -35,11 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
-                        barcodeResult.innerHTML = isbn; // Update to use isbn directly
-
-                        scanButton.style.visibility = 'visible';
-                        scanButton.style.marginTop = '1vh';
-                        confirm.style.visibility = 'visible';
+                        barcodeResult.innerHTML = isbn;
                     });
                 }
             }).catch(err => {
@@ -102,4 +98,9 @@ function bookdata(data) {
     genrename.innerHTML = 'Genre: ' + category;
 
     yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
+
+    bookname.style.fontSize = '5vw'
+    authorname.style.fontSize = '5vw'
+    genrename.style.fontSize = '5vw'
+    yearofpublish.style.fontSize = '5vw'
 }

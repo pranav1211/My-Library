@@ -11,8 +11,7 @@
     margin-right: 20px;
 }
 #confirm{
-    text-align: center;
-    display: inline-block;
+    margin-top: 20px;    
 }
 #videodiv{
     width: 99%;
@@ -22,17 +21,21 @@
     margin-bottom: 60px;
     margin-top: 30px;
     aspect-ratio: 16/9;
-    height: auto;
-     
+    height: auto;     
 }
 
-#buttons{
+#buttons,#stuff{
     display: flex;
     justify-content: center;
 }
+#barcodeResult{
+    margin-top: 50px;
+    font-size: 6vw;
+    text-align: center;
+}
 
 #bookdetails{
-    font-size: 6vw;
+    font-size: 5vw;
 }
 #video {
     width: 100%;
