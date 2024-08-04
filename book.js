@@ -4,7 +4,7 @@ let stopScanButton = document.querySelector('#stopscan');
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
 let confirm = document.querySelector('#confirm');
-var isbn = 9780099560432;
+var isbn = 9780143066439;
 let barcodeDetector;
 let scanInterval;
 let stream;
@@ -12,7 +12,7 @@ let imagesource = document.querySelector("#imagesource")
 
 document.addEventListener('DOMContentLoaded', () => {
     if (!('BarcodeDetector' in window)) {
-        alert('Barcode Detector is not supported by this browser, Sorry  :( ');
+        alert('Barcode Detector is not supported by this browser, Sorry :( ');
         return;
     }
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
-                startBarcodeDetection();
+                startBarcodeDetection();                
             });
         }).catch(alert);
     });
@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         isbn = barcode.rawValue;
                         barcodeResult.innerHTML = isbn;
                         barcodeResult.style.fontSize = '5vw';
+                        fetchinfo();
                     });
                 }
             }).catch(err => {
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scanInterval = setInterval(detectBarcodes, 1000);
     }
 
-    confirm.addEventListener('click', () => {
+    function fetchinfo() {
         if (!isbn) {
             alert('No barcode scanned or barcode value is empty.');
             return;
@@ -98,15 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('There was a problem with the fetch operation');
                 console.error('Fetch error:', error);
             });
-    });
+    };
+
+    // confirm.addEventListener('click', () =>{
+    //     fetchinfo()
+    // });
 
     function bookdata(data) {
         const book = data.items[0];
-        bookname.innerHTML = 'Book Name: ' + book.volumeInfo.title;
+        var booknames = book.volumeInfo.title;
 
         const authors = book.volumeInfo.authors;
         var authortext = authors ? authors.join(',') : 'unknown';
-        authorname.innerHTML = 'Author: ' + authortext;
+        var authornames = authortext;        
+
+        bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
 
         const categories = book.volumeInfo.categories;
         var category = categories ? categories.join(',') : 'unknown';
@@ -115,12 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
         yearofpublish.innerHTML = 'Year of Publish: ' + book.volumeInfo.publishedDate;
 
         var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
-        imagesource.src = imagethumb
+        if (!imagethumb){
+            imagesource.src = 'notfound.jpg'
+        }
+        else{
+            imagesource.src = imagethumb
+        }
+        
          
 
-        bookname.style.fontSize = '4vw';
-        authorname.style.fontSize = '4vw';
+        bookname.style.fontSize = '4vw';        
         genrename.style.fontSize = '4vw';
         yearofpublish.style.fontSize = '4vw';
-    }
+    }    
 });

@@ -1,6 +1,6 @@
 #stopscan,#scanButton,#confirm {
     width: 40vw;
-    height: 10vw;
+    height: 21vw;
     font-size: 6vw;
     font-weight: bold;
     border: 0px;
@@ -36,6 +36,10 @@
 
 #bookdetails{
     font-size: 4vw;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
 }
 #video {
     width: 100%;
