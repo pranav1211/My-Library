@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).then((stream) => {
         video.srcObject = stream;
         video.addEventListener("loadedmetadata", () => {
-            video.play();
-            startBarcodeDetection();
+            video.play();            
         });
     }).catch(alert);
 
