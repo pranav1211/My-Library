@@ -11,6 +11,13 @@ let imagesource = document.querySelector("#imagesource");
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
+    if ('BarcodeDetector' in window) {
+        alert('Barcode detector working.')
+    }
+    else{
+        alert("Barcode detector not supported, switching to alternate method.")
+    }
+
 
     function startScan() {
         if (stream) return;
@@ -27,10 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             video.addEventListener("loadedmetadata", () => {
                 video.play();
                 if ('BarcodeDetector' in window) {               
-                    alert('Barcode detector working.')     
                     startBarcodeDetection();
                 } else {
-                    alert("Using alternate method now.")
                     startQuaggaDetection();
                 }
             });
