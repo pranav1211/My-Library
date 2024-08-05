@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
         scanstatus.innerHTML = 'Barcode Detector Working'
+        scanstatus.style.color ='green'
     }
     else{
         scanstatus.innerHTML = 'Barcode Detector not supportted, alternate detector enabled.'
