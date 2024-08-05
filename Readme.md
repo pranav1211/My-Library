@@ -1,6 +1,6 @@
 Hello There.
 
-This is an application designed to create a library of you books just by scanning the barcodes on them.\
+This is an application designed to create a library of you books just by scanning the barcodes on them from your phone camera!!!\
 Check it out on https://Mylibrary.life
 
 This works only on devies with a rear camera.
