@@ -4,22 +4,16 @@ let stopScanButton = document.querySelector('#stopscan');
 let video = document.querySelector('#video');
 let barcodeResult = document.querySelector('#barcodeResult');
 let confirm = document.querySelector('#confirm');
-var isbn = 9780143066439;
-let barcodeDetector;
-let scanInterval;
+var isbn;
 let stream;
-let imagesource = document.querySelector("#imagesource")
+let imagesource = document.querySelector("#imagesource");
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (!('BarcodeDetector' in window)) {
-        alert('Barcode Detector is not supported by this browser, Sorry :( ');
-        return;
-    }
+    startScanButton.addEventListener('click', startScan);
+    stopScanButton.addEventListener('click', stopScan);
 
-    startScanButton.addEventListener('click', () => {
-        if (stream) {            
-            return;
-        }
+    function startScan() {
+        if (stream) return;
 
         navigator.mediaDevices.getUserMedia({
             video: {
@@ -32,12 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
-                startBarcodeDetection();                
+                if ('BarcodeDetector' in window) {                    
+                    startBarcodeDetection();
+                } else {
+                    alert("Using alternate method now.")
+                    startQuaggaDetection();
+                }
             });
         }).catch(alert);
-    });
+    }
 
-    stopScanButton.addEventListener('click', () => {
+    function stopScan() {
         if (stream) {
             let tracks = stream.getTracks();
             tracks.forEach(track => track.stop());
@@ -48,11 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(scanInterval);
                 scanInterval = null;
             }
+
+            Quagga.stop();
         }
-    });
+    }
 
     function startBarcodeDetection() {
-        barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+        const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
         function detectBarcodes() {
             barcodeDetector.detect(video).then((barcodes) => {
@@ -70,6 +71,33 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         scanInterval = setInterval(detectBarcodes, 1000);
+    }
+
+    function startQuaggaDetection() {
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: video
+            },
+            decoder: {
+                readers: ["ean_reader", "ean_8_reader", "upc_reader", "upc_e_reader"]
+            }
+        }, function (err) {
+            if (err) {
+                console.error("Quagga initialization failed: ", err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected(function (result) {
+            isbn = result.codeResult.code;
+            barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
+            barcodeResult.style.fontSize = '3vw';
+            fetchinfo();
+            Quagga.stop();
+        });
     }
 
     function fetchinfo() {
@@ -101,38 +129,29 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // confirm.addEventListener('click', () =>{
-    //     fetchinfo()
-    // });
-
     function bookdata(data) {
         const book = data.items[0];
         var booknames = book.volumeInfo.title;
 
         const authors = book.volumeInfo.authors;
         var authortext = authors ? authors.join(',') : 'unknown';
-        var authornames = authortext;        
+        var authornames = authortext;
 
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
 
         const categories = book.volumeInfo.categories;
         var category = categories ? categories.join(',') : 'unknown';
-        var genre = category
-        genrename.innerHTML =`Genre : <strong>${genre}</strong>`;
+        var genre = category;
+        genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
 
-        var publish = book.volumeInfo.publishedDate
+        var publish = book.volumeInfo.publishedDate;
         yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
 
         var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
-        if (!imagethumb){
-            imagesource.src = 'notfound.jpg'
-        }
-        else{
-            imagesource.src = imagethumb
-        }      
-         
-        bookname.style.fontSize = '5vw';        
+        imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
+
+        bookname.style.fontSize = '5vw';
         genrename.style.fontSize = '5vw';
         yearofpublish.style.fontSize = '5vw';
-    }    
+    }
 });
