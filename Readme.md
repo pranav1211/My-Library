@@ -7,6 +7,15 @@ This currently works only on devies with a rear camera.
 
 Changelog:
 
+   ## V0.4 :
+      04/08/2024 :
+        -> changed quagga js to inbuilt js library
+        -> added a feature to close camer
+        -> camera is now always scanning for a barcode
+        -> added a tip about usage for better accesibility
+        -> book cover image now shows when a barcode is scanned
+        -> changed formatting of book information for a better user experience
+
    ## V 0.3:
       16/4/2024 :
          -> created a landing page
