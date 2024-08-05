@@ -7,15 +7,16 @@ let confirm = document.querySelector('#confirm');
 var isbn;
 let stream;
 let imagesource = document.querySelector("#imagesource");
+let scanstatus = document.querySelector('#barcode-status')
 
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
-        alert('Barcode detector working.')
+        scanstatus.innerHTML = 'Barcode Detector Working'
     }
     else{
-        alert("Barcode detector not supported, switching to alternate method.")
+        scanstatus.innerHTML = 'Barcode Detector not supportted, alternate detector enabled.'
     }
 
 
