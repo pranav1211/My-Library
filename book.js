@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
-                if ('BarcodeDetector' in window) {                    
+                if ('BarcodeDetector' in window) {               
+                    alert('Barcode detector working.')     
                     startBarcodeDetection();
                 } else {
                     alert("Using alternate method now.")
