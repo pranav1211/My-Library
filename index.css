@@ -42,7 +42,7 @@ body {
     transform: translateY(2px);
 }
 
-#note,#barcode-status {
+#note {
 
     font-family: "PT Sans Narrow", sans-serif;
     font-weight: 400;

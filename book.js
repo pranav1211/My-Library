@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else{
         scanstatus.innerHTML = 'Barcode Detector not supportted, alternate detector enabled.'
+        scanstatus.style.color ='green'
     }
 
 

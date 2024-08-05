@@ -54,7 +54,7 @@
     width: 40vw;
     margin-top: 2vw;
 }
-#tip{
+#tip,#barcode-status{
     font-size: 4vw;
     text-align: center;
     font-style: italic;
