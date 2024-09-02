@@ -8,16 +8,18 @@ var isbn;
 let stream;
 let imagesource = document.querySelector("#imagesource");
 let scanstatus = document.querySelector('#barcode-status')
+let videodiv = document.querySelector('#videodiv')
+
 
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
-        scanstatus.innerHTML = 'Barcode Detector Working'
+        videodiv.style.borderColor = 'green';        
         setcssstatus()
     }
     else{
-        scanstatus.innerHTML = 'Barcode Detector not supportted, alternate detector enabled.'
+        videodiv.style.borderColor = 'red';
         setcssstatus()
     }
 
@@ -76,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
-                        barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
+                        barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
                         fetchinfo();
                     });
