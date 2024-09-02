@@ -9,9 +9,11 @@ let stream;
 let imagesource = document.querySelector("#imagesource");
 let scanstatus = document.querySelector('#barcode-status')
 let videodiv = document.querySelector('#videodiv')
+let loader = document.querySelector('.loader')
 
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', () => {    
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(alert);
     }
 
-    function stopScan() {
+    function stopScan() {                
         if (stream) {
             let tracks = stream.getTracks();
             tracks.forEach(track => track.stop());
@@ -70,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startBarcodeDetection() {
+        
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
         function detectBarcodes() {
@@ -122,7 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No barcode scanned or barcode value is empty.');
             return;
         }
-
+        loader.style.visibility = 'show'
+        loader.style.animation = 'l17 4s infinite steps(6)';
+        
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
         fetch(apiUrl)
@@ -135,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.items && data.items.length > 0) {
-                    bookdata(data);
+                    setInterval(bookdata(data),4000)                    
                 } else {
                     alert('No book information found for the given ISBN.');
                 }
@@ -172,3 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
         yearofpublish.style.fontSize = '5vw';
     }
 });
+
+
+// loader.style.animation = 'l17 4s infinite steps(6)';
