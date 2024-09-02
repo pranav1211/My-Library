@@ -13,19 +13,19 @@ let loader = document.querySelector('.loader')
 let bookinfo = document.querySelector('#bookinfo')
 
 
-document.addEventListener('DOMContentLoaded', () => {    
+document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
-        videodiv.style.borderColor = 'green';        
+        videodiv.style.borderColor = 'green';
         setcssstatus()
     }
-    else{
+    else {
         videodiv.style.borderColor = 'red';
         setcssstatus()
     }
 
-    function setcssstatus(){
+    function setcssstatus() {
         scanstatus.style.color = 'green'
         scanstatus.style.textAlign = 'center'
         scanstatus.style.fontSize = '3vw'
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
-                if ('BarcodeDetector' in window) {               
+                if ('BarcodeDetector' in window) {
                     startBarcodeDetection();
                 } else {
                     startQuaggaDetection();
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(alert);
     }
 
-    function stopScan() {                
+    function stopScan() {
         if (stream) {
             let tracks = stream.getTracks();
             tracks.forEach(track => track.stop());
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startBarcodeDetection() {
-        
+
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
         function detectBarcodes() {
@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
+
+                        bookinfo.style.visibility = 'hidden';                        
+
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
                         fetchinfo();
@@ -113,6 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected(function (result) {
             isbn = result.codeResult.code;
+
+            bookinfo.style.visibility = 'hidden';
+
             barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
             barcodeResult.style.fontSize = '3vw';
             fetchinfo();
@@ -127,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         loader.style.visibility = 'visible'
         loader.style.animation = 'l17 3s infinite steps(6)';
-        
+
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
         fetch(apiUrl)
@@ -155,10 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             loader.style.visibility = 'hidden'
-        loader.style.animation = 'none';
+            loader.style.animation = 'none';
             bookinfo.style.visibility = 'visible'
         }, 2500);
-        
+
         const book = data.items[0];
         var booknames = book.volumeInfo.title;
 
