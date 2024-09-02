@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.style.visibility = 'hidden'
         loader.style.animation = 'none';
             bookinfo.style.visibility = 'visible'
-        }, 4000);
+        }, 2500);
         
         const book = data.items[0];
         var booknames = book.volumeInfo.title;
