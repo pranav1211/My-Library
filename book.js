@@ -188,6 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
         bookname.style.fontSize = '5vw';
         genrename.style.fontSize = '5vw';
         yearofpublish.style.fontSize = '5vw';
+        genrename.style.textAlign = 'left'
+        yearofpublish.style.textAlign = 'left'
 
 
     }

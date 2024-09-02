@@ -47,10 +47,6 @@
     text-align: center;
     flex-direction: column;
 }
-#genrename,#yearofpublish{
-    text-align: left;
-    padding-left: 30px;
-}
 #bookinfo {
     /* visibility: hidden; */
 }
