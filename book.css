@@ -46,6 +46,9 @@
     display: flex;
     text-align: center;
     flex-direction: column;
+}
+
+#bookinfo {
     visibility: hidden;
 }
 

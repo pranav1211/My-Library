@@ -10,7 +10,7 @@ let imagesource = document.querySelector("#imagesource");
 let scanstatus = document.querySelector('#barcode-status')
 let videodiv = document.querySelector('#videodiv')
 let loader = document.querySelector('.loader')
-let bookdetails = document.querySelector('#bookdetails')
+let bookinfo = document.querySelector('#bookinfo')
 
 
 document.addEventListener('DOMContentLoaded', () => {    
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         yearofpublish.style.fontSize = '5vw';
 
         setTimeout(() => {
-            bookdetails.style.visibility = 'visible'
+            bookinfo.style.visibility = 'visible'
         }, 4000);
     }
 });
