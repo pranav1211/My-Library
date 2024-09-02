@@ -10,22 +10,22 @@ let imagesource = document.querySelector("#imagesource");
 let scanstatus = document.querySelector('#barcode-status')
 let videodiv = document.querySelector('#videodiv')
 let loader = document.querySelector('.loader')
+let bookdetails = document.querySelector('#bookdetails')
 
 
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {    
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     if ('BarcodeDetector' in window) {
-        videodiv.style.borderColor = 'green';
+        videodiv.style.borderColor = 'green';        
         setcssstatus()
     }
-    else {
+    else{
         videodiv.style.borderColor = 'red';
         setcssstatus()
     }
 
-    function setcssstatus() {
+    function setcssstatus(){
         scanstatus.style.color = 'green'
         scanstatus.style.textAlign = 'center'
         scanstatus.style.fontSize = '3vw'
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
-                if ('BarcodeDetector' in window) {
+                if ('BarcodeDetector' in window) {               
                     startBarcodeDetection();
                 } else {
                     startQuaggaDetection();
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(alert);
     }
 
-    function stopScan() {
+    function stopScan() {                
         if (stream) {
             let tracks = stream.getTracks();
             tracks.forEach(track => track.stop());
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startBarcodeDetection() {
-
+        
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
 
         function detectBarcodes() {
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         loader.style.visibility = 'visible'
         loader.style.animation = 'l17 4s infinite steps(6)';
-
+        
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
         fetch(apiUrl)
@@ -152,36 +152,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function bookdata(data) {
+        
+        const book = data.items[0];
+        var booknames = book.volumeInfo.title;
+
+        const authors = book.volumeInfo.authors;
+        var authortext = authors ? authors.join(',') : 'unknown';
+        var authornames = authortext;
+
+        bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
+
+        const categories = book.volumeInfo.categories;
+        var category = categories ? categories.join(',') : 'unknown';
+        var genre = category;
+        genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
+
+        var publish = book.volumeInfo.publishedDate;
+        yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
+
+        var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
+        imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
+
+        bookname.style.fontSize = '5vw';
+        genrename.style.fontSize = '5vw';
+        yearofpublish.style.fontSize = '5vw';
 
         setTimeout(() => {
-            showdata()
+            bookdetails.style.visibility = 'visible'
         }, 4000);
-
-        function showdata() {
-            const book = data.items[0];
-            var booknames = book.volumeInfo.title;
-
-            const authors = book.volumeInfo.authors;
-            var authortext = authors ? authors.join(',') : 'unknown';
-            var authornames = authortext;
-
-            bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
-
-            const categories = book.volumeInfo.categories;
-            var category = categories ? categories.join(',') : 'unknown';
-            var genre = category;
-            genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
-
-            var publish = book.volumeInfo.publishedDate;
-            yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
-
-            var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
-            imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
-
-            bookname.style.fontSize = '5vw';
-            genrename.style.fontSize = '5vw';
-            yearofpublish.style.fontSize = '5vw';
-        }
     }
 });
 
