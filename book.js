@@ -140,7 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.items && data.items.length > 0) {
-                    setTimeout(bookdata(data),4000)
+                    setInterval(() => {
+                        bookdata(data)
+                    }, 4000);
                 } else {
                     alert('No book information found for the given ISBN.');
                 }
