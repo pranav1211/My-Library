@@ -152,6 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function bookdata(data) {
+
+        setTimeout(() => {
+            loader.style.visibility = 'hidden'
+        loader.style.animation = 'none';
+            bookinfo.style.visibility = 'visible'
+        }, 4000);
         
         const book = data.items[0];
         var booknames = book.volumeInfo.title;
@@ -177,9 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         genrename.style.fontSize = '5vw';
         yearofpublish.style.fontSize = '5vw';
 
-        setTimeout(() => {
-            bookinfo.style.visibility = 'visible'
-        }, 4000);
+
     }
 });
 
