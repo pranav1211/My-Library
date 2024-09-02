@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No barcode scanned or barcode value is empty.');
             return;
         }
-        loader.style.visibility = 'show'
+        loader.style.visibility = 'visible'
         loader.style.animation = 'l17 4s infinite steps(6)';
         
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.items && data.items.length > 0) {
-                    setInterval(bookdata(data),4000)                    
+                    setTimeout(bookdata(data),4000)
                 } else {
                     alert('No book information found for the given ISBN.');
                 }
