@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         loader.style.visibility = 'visible'
-        loader.style.animation = 'l17 4s infinite steps(6)';
+        loader.style.animation = 'l17 3s infinite steps(6)';
         
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
 
