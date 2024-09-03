@@ -13,8 +13,8 @@ let loader = document.querySelector('.loader')
 let bookinfo = document.querySelector('#bookinfo')
 let addButton = document.querySelector('#addButton')
 let viewButton = document.querySelector('#viewButton')
-
-
+let error1 = document.querySelector('#error1')
+let added1 = document.querySelector('#added1')
 
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
@@ -129,39 +129,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function fetchinfo() {
-        if (!isbn) {
-            alert('No barcode scanned or barcode value is empty.');
-            return;
-        }
-        loader.style.visibility = 'visible'
-        loader.style.animation = 'l17 3s infinite steps(6)';
-
-        var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
-
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    alert('Network response was not ok');
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.items && data.items.length > 0) {
-                    bookdata(data);
-                } else {
-                    alert('No book information found for the given ISBN.');
-                }
-            })
-            .catch(error => {
-                alert('There was a problem with the fetch operation');
-                console.error('Fetch error:', error);
-            });
-    };
-
 
 });
+
+function fetchinfo() {
+    if (!isbn) {
+        alert('No barcode scanned or barcode value is empty.');
+        return;
+    }
+    loader.style.visibility = 'visible'
+    loader.style.animation = 'l17 3s infinite steps(6)';
+
+    var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                alert('Network response was not ok');
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.items && data.items.length > 0) {
+                bookdata(data);
+            } else {
+                alert('No book information found for the given ISBN.');
+            }
+        })
+        .catch(error => {
+            alert('There was a problem with the fetch operation');
+            console.error('Fetch error:', error);
+        });
+};
+
+
 function bookdata(data) {
 
     setTimeout(() => {
@@ -197,6 +199,21 @@ function bookdata(data) {
 
 }
 
+addButton.addEventListener('click', () => {
+
+    added1.innerHTML = 'Added!'
+    added1.style.background = 'rgb(42, 197, 108)'
+
+    // added1.innerHTML = 'Error!'
+    // added1.style.background = 'red'
+
+    added1.style.animation = 'moveup 2s'
+    setTimeout(() => {
+        added1.style.animation = 'none'
+    }, 2000);
+
+
+});
 
 
 

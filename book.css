@@ -133,43 +133,41 @@ body {
     font-family: Lato, Calibri, Arial, sans-serif;
     font-weight: 700;
     text-align: center;
-    color: rgb(255, 255, 255); /* Text color */
+    color: rgb(255, 255, 255);
     letter-spacing: 1px;
     border: 0px;
-    /* overflow: hidden;  */
+    line-height: 13vw;
+    cursor: pointer;
+    
 }
-
-.button-36:before {
-    content: "Error!";
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    line-height: 13vw; /* Match the button height */
-    background: RED;
-    color: rgb(255, 255, 255); /* Text color matching button text */
+#added1{
+    width: 40vw;
+    height: 13vw;
+    display: block;    
+    position: relative;
+    font-size: 5vw;
+    font-family: Lato, Calibri, Arial, sans-serif;
+    font-weight: 700;
     text-align: center;
-    z-index: 1;
-}
-
-.button-36:after {
-    content: "Added!";
-    margin: 0px;
-    padding: 0px;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
     border: 0px;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    line-height: 13vw; /* Match the button height */
-    background: rgb(122, 202, 124);
-    color: rgb(255, 255, 255); /* Text color matching button text */
-    text-align: center;
-    z-index: 0;    
+    line-height: 13vw;    
+        
+    /* visibility: hidden; */
 }
 
+
+@keyframes moveup {
+    50%{
+        transform: translateY(-100%);
+    }
+    
+}
+
+#addtolib{
+    height: 13vw;
+    overflow: hidden;    
+    display: flex;
+    flex-direction: column;
+}
