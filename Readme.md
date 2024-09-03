@@ -1,12 +1,21 @@
 Hello There.
 
-This is an application designed to create a library of you books just by scanning the barcodes on them from your phone camera!!!\
+This is an application designed to create an online library of you books just by scanning the barcodes on them from your phone camera!!!\
 Check it out on https://Mylibrary.life
 
 This works only on devies with a rear camera.
 
 Changelog:
-
+    
+   ## V 0.5 :
+      04/09/2024 :
+        -> Changed button colors, style.
+        -> changed background color.
+        -> added a 'Add to library' and 'view library' button, currently disabled as a display page with other features need to be added, but still shows with animations for added and error if book already present.
+        -> added a loader of 2.5s to allow for slow data retrievel of book
+        -> working on better display of details
+        -> removed scan status word version, the color of the video div tells what scanner software is being used, mostly for dev clarity not user
+        -> 
    ## V0.4 :
       04/08/2024 :
         -> changed quagga js to inbuilt js library

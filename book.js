@@ -310,17 +310,17 @@ addButton.addEventListener('click', () => {
 
 });
 
-function addinfo() {
-    var booknumber = localStorage.getItem('noofbooks');
-    localStorage.setItem("userbooktitle" + booknumber, booknames);
-    localStorage.setItem("userbookauthor" + booknumber, authornames);
-    localStorage.setItem("userbookgenre" + booknumber, genre);
-    localStorage.setItem("userbookpublish" + booknumber, publish);
-    localStorage.setItem("userbookimagethumb" + booknumber, imagethumb);
-    booknumber = Number(booknumber)
-    booknumber += 1;
-    localStorage.setItem("noofbooks", booknumber)
-}
+// function addinfo() {
+//     var booknumber = localStorage.getItem('noofbooks');
+//     localStorage.setItem("userbooktitle" + booknumber, booknames);
+//     localStorage.setItem("userbookauthor" + booknumber, authornames);
+//     localStorage.setItem("userbookgenre" + booknumber, genre);
+//     localStorage.setItem("userbookpublish" + booknumber, publish);
+//     localStorage.setItem("userbookimagethumb" + booknumber, imagethumb);
+//     booknumber = Number(booknumber)
+//     booknumber += 1;
+//     localStorage.setItem("noofbooks", booknumber)
+// }
 
 viewButton.addEventListener('click', () => {
     viewButton.style.backgroundPosition = "-100% 0";
