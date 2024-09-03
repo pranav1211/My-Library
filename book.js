@@ -1,21 +1,49 @@
 var apiKey = 'AIzaSyA04MfGxy' + 'cBuwJ0Oq' + 'IL2x_6JsKoJCDU7gk';
-let startScanButton = document.querySelector('#scanButton');
-let stopScanButton = document.querySelector('#stopscan');
-let video = document.querySelector('#video');
-let barcodeResult = document.querySelector('#barcodeResult');
-let confirm = document.querySelector('#confirm');
-var isbn;
-let stream;
-let imagesource = document.querySelector("#imagesource");
-let scanstatus = document.querySelector('#barcode-status')
-let videodiv = document.querySelector('#videodiv')
-let loader = document.querySelector('.loader')
-let bookinfo = document.querySelector('#bookinfo')
-let addButton = document.querySelector('#addButton')
-let viewButton = document.querySelector('#viewButton')
-let error1 = document.querySelector('#error1')
-let added1 = document.querySelector('#added1')
 
+let startScanButton = document.querySelector('#scanButton'); // open camera
+let stopScanButton = document.querySelector('#stopscan'); //close camera
+
+let video = document.querySelector('#video');  // video itself
+
+let barcodeResult = document.querySelector('#barcodeResult'); // barcode result div
+//let confirm = document.querySelector('#confirm');
+var isbn;
+
+let stream; // the video stream
+
+let imagesource = document.querySelector("#imagesource"); // book cover
+
+let scanstatus = document.querySelector('#barcode-status') // scan status using border of video
+
+let videodiv = document.querySelector('#videodiv') //video div
+
+let loader = document.querySelector('.loader') // buffer animator
+
+let bookinfo = document.querySelector('#bookinfo') // book information section
+
+let addButton = document.querySelector('#addButton') //add book to library
+let viewButton = document.querySelector('#viewButton') // view library
+
+let error1 = document.querySelector('#error1') // error aniamation
+let added1 = document.querySelector('#added1') // added animation
+
+let addtolib = document.querySelector("#addtolib"); // add to library section
+
+let books_in_storage = [];
+
+function getBooks() {
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        if (key.includes('userbooktitle')) {
+            let val = localStorage.getItem(key);
+            if (val !== null) {
+                books_in_storage.push(val);
+            }
+        }
+    }
+    console.log(books_in_storage);
+}
+getBooks()
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
@@ -86,6 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         isbn = barcode.rawValue;
 
                         bookinfo.style.visibility = 'hidden';
+                        addtolib.style.visibility = 'hidden'
+                        viewButton.style.visibility = 'hidden'
 
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
@@ -121,6 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isbn = result.codeResult.code;
 
             bookinfo.style.visibility = 'hidden';
+            addtolib.style.visibility = 'hidden'
+            viewButton.style.visibility = 'hidden'
 
             barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
             barcodeResult.style.fontSize = '3vw';
@@ -163,6 +195,11 @@ function fetchinfo() {
         });
 };
 
+let booknames;
+let authornames;
+let genre;
+let publish;
+let imagethumb;
 
 function bookdata(data) {
 
@@ -170,42 +207,55 @@ function bookdata(data) {
         loader.style.visibility = 'hidden'
         loader.style.animation = 'none';
         bookinfo.style.visibility = 'visible'
+        addtolib.style.visibility = 'visible'
+        viewButton.style.visibility = 'visible'
     }, 2500);
 
     const book = data.items[0];
-    var booknames = book.volumeInfo.title;
+    booknames = book.volumeInfo.title;
 
     const authors = book.volumeInfo.authors;
     var authortext = authors ? authors.join(',') : 'unknown';
-    var authornames = authortext;
+    authornames = authortext;
 
     bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
 
     const categories = book.volumeInfo.categories;
     var category = categories ? categories.join(',') : 'unknown';
-    var genre = category;
+    genre = category;
     genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
 
-    var publish = book.volumeInfo.publishedDate;
+    publish = book.volumeInfo.publishedDate;
     yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
 
-    var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
+    imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
     imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
 
     bookname.style.fontSize = '5vw';
     genrename.style.fontSize = '5vw';
     yearofpublish.style.fontSize = '5vw';
 
-
 }
 
 addButton.addEventListener('click', () => {
 
-    added1.innerHTML = 'Added!'
-    added1.style.background = 'rgb(42, 197, 108)'
+    if (books_in_storage.includes(booknames)) {
+        added1.innerHTML = 'Error!'
+        added1.style.background = 'red'
+        alert('Book already exists');
 
-    // added1.innerHTML = 'Error!'
-    // added1.style.background = 'red'
+    }
+    else if (!localStorage.getItem('noofbooks')) {
+        localStorage.setItem('noofbooks', 0);
+        added1.innerHTML = 'Added!'
+        added1.style.background = 'rgb(42, 197, 108)'
+        addinfo()
+        getBooks()
+    }
+    else {
+        addinfo()
+        getBooks()
+    }
 
     added1.style.animation = 'moveup 2s'
     setTimeout(() => {
@@ -215,6 +265,18 @@ addButton.addEventListener('click', () => {
 
 });
 
+function addinfo() {
+    var booknumber = localStorage.getItem('noofbooks');
+    localStorage.setItem("userbooktitle" + booknumber, booknames);
+    localStorage.setItem("userbookauthor" + booknumber, authornames);
+    localStorage.setItem("userbookgenre" + booknumber, genre);
+    localStorage.setItem("userbookpublish" + booknumber, publish);
+    localStorage.setItem("userbookimagethumb" + booknumber, imagethumb);
+    booknumber = Number(booknumber)
+    booknumber += 1;
+    localStorage.setItem("noofbooks", booknumber)
+}
 
-
-// loader.style.animation = 'l17 4s infinite steps(6)';
+viewButton.addEventListener('click', () => {
+    viewButton.style.backgroundPosition = "-100% 0";
+})

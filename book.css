@@ -122,8 +122,6 @@ body {
 
 #addButton {
     margin-right: 20px;
-}
-.button-36 {
     width: 40vw;
     height: 13vw;
     display: block;
@@ -138,12 +136,13 @@ body {
     border: 0px;
     line-height: 13vw;
     cursor: pointer;
-    
+
 }
-#added1{
+
+#added1 {
     width: 40vw;
     height: 13vw;
-    display: block;    
+    display: block;
     position: relative;
     font-size: 5vw;
     font-family: Lato, Calibri, Arial, sans-serif;
@@ -152,22 +151,48 @@ body {
     color: rgb(255, 255, 255);
     letter-spacing: 1px;
     border: 0px;
-    line-height: 13vw;    
-        
+    line-height: 13vw;
+
     /* visibility: hidden; */
 }
 
 
 @keyframes moveup {
-    50%{
+    50% {
         transform: translateY(-100%);
     }
-    
+
 }
 
-#addtolib{
+#addtolib {
     height: 13vw;
-    overflow: hidden;    
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    visibility: hidden;
 }
+
+#viewButton {
+    visibility: hidden;
+    width: 40vw;
+    height: 13vw;
+    display: block;
+    background: rgb(69, 147, 227);
+    position: relative;
+    font-size: 5vw;
+    font-family: Lato, Calibri, Arial, sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
+    border: 0px;
+    line-height: 13vw;
+    cursor: pointer;
+    background-size: 200% 100%;
+    background-image: linear-gradient(270deg, rgb(26, 97, 168) 50%, rgb(89, 167, 247) 50%);
+    transition: background-position 0.5s ease;
+}
+
+
+
+
