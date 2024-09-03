@@ -296,6 +296,8 @@ addButton.addEventListener('click', () => {
         getBooks()
     }
     else {
+        added1.innerHTML = 'Added!'
+        added1.style.background = 'rgb(42, 197, 108)'
         addinfo()
         getBooks()
     }
