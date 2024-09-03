@@ -11,6 +11,9 @@ let scanstatus = document.querySelector('#barcode-status')
 let videodiv = document.querySelector('#videodiv')
 let loader = document.querySelector('.loader')
 let bookinfo = document.querySelector('#bookinfo')
+let addButton = document.querySelector('#addButton')
+let viewButton = document.querySelector('#viewButton')
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -82,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
 
-                        bookinfo.style.visibility = 'hidden';                        
+                        bookinfo.style.visibility = 'hidden';
 
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
@@ -157,43 +160,44 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    function bookdata(data) {
 
-        setTimeout(() => {
-            loader.style.visibility = 'hidden'
-            loader.style.animation = 'none';
-            bookinfo.style.visibility = 'visible'
-        }, 2500);
-
-        const book = data.items[0];
-        var booknames = book.volumeInfo.title;
-
-        const authors = book.volumeInfo.authors;
-        var authortext = authors ? authors.join(',') : 'unknown';
-        var authornames = authortext;
-
-        bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
-
-        const categories = book.volumeInfo.categories;
-        var category = categories ? categories.join(',') : 'unknown';
-        var genre = category;
-        genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
-
-        var publish = book.volumeInfo.publishedDate;
-        yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
-
-        var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
-        imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
-
-        bookname.style.fontSize = '5vw';
-        genrename.style.fontSize = '5vw';
-        yearofpublish.style.fontSize = '5vw';
-        genrename.style.textAlign = 'left'
-        yearofpublish.style.textAlign = 'left'
-
-
-    }
 });
+function bookdata(data) {
+
+    setTimeout(() => {
+        loader.style.visibility = 'hidden'
+        loader.style.animation = 'none';
+        bookinfo.style.visibility = 'visible'
+    }, 2500);
+
+    const book = data.items[0];
+    var booknames = book.volumeInfo.title;
+
+    const authors = book.volumeInfo.authors;
+    var authortext = authors ? authors.join(',') : 'unknown';
+    var authornames = authortext;
+
+    bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
+
+    const categories = book.volumeInfo.categories;
+    var category = categories ? categories.join(',') : 'unknown';
+    var genre = category;
+    genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
+
+    var publish = book.volumeInfo.publishedDate;
+    yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
+
+    var imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : '';
+    imagesource.src = imagethumb ? imagethumb : 'notfound.jpg';
+
+    bookname.style.fontSize = '5vw';
+    genrename.style.fontSize = '5vw';
+    yearofpublish.style.fontSize = '5vw';
+
+
+}
+
+
 
 
 // loader.style.animation = 'l17 4s infinite steps(6)';

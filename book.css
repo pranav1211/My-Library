@@ -93,7 +93,7 @@ body {
 
 .button-35 {
     width: 40vw;
-    height: 11vw;        
+    height: 13vw;
     box-sizing: border-box;
     border-radius: 20px;
     background: rgb(203, 78, 78);
@@ -113,3 +113,63 @@ body {
     transform: translateY(8px);
     box-shadow: rgb(171, 60, 60) 0px 0px 0px 0px;
 }
+
+#libbuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#addButton {
+    margin-right: 20px;
+}
+.button-36 {
+    width: 40vw;
+    height: 13vw;
+    display: block;
+    background: rgb(252, 173, 38);
+    position: relative;
+    font-size: 5vw;
+    font-family: Lato, Calibri, Arial, sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255); /* Text color */
+    letter-spacing: 1px;
+    border: 0px;
+    /* overflow: hidden;  */
+}
+
+.button-36:before {
+    content: "Error!";
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 13vw; /* Match the button height */
+    background: RED;
+    color: rgb(255, 255, 255); /* Text color matching button text */
+    text-align: center;
+    z-index: 1;
+}
+
+.button-36:after {
+    content: "Added!";
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 13vw; /* Match the button height */
+    background: rgb(122, 202, 124);
+    color: rgb(255, 255, 255); /* Text color matching button text */
+    text-align: center;
+    z-index: 0;    
+}
+
