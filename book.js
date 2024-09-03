@@ -29,6 +29,9 @@ let added1 = document.querySelector('#added1') // added animation
 
 let addtolib = document.querySelector("#addtolib"); // add to library section
 
+let videoTrack;
+let flashOn = true;
+
 let books_in_storage = [];
 
 function getBooks() {
@@ -44,6 +47,7 @@ function getBooks() {
     console.log(books_in_storage);
 }
 getBooks()
+
 document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
@@ -63,28 +67,67 @@ document.addEventListener('DOMContentLoaded', () => {
         scanstatus.style.textStyle = 'italic'
     }
 
+    
+    function toggleFlash() {
+        if (videoTrack) {
+            const capabilities = videoTrack.getCapabilities();
+            if (capabilities.torch) {
+                videoTrack.applyConstraints({
+                    advanced: [{ torch: !flashOn }]
+                }).then(() => {
+                    flashOn = !flashOn;
+                }).catch((error) => {
+                    console.error('Error toggling flash:', error);
+                });
+            } else {
+                console.log('Flash control is not available.');
+            }
+        }
+    }
+    
     function startScan() {
         if (stream) return;
-
+    
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: { exact: 'environment' },
                 width: { ideal: 1920 },
                 height: { ideal: 1080 }
-            }, audio: false,
+            },
+            audio: false
         }).then((mediaStream) => {
             stream = mediaStream;
             video.srcObject = stream;
             video.addEventListener("loadedmetadata", () => {
                 video.play();
+                videoTrack = stream.getVideoTracks()[0];
+    
+                // Check if the camera supports flash control
+                if (videoTrack.getCapabilities().torch) {
+                    console.log('Flash is supported.');
+                    
+                    // Enable flash by default
+                    videoTrack.applyConstraints({
+                        advanced: [{ torch: true }]
+                    }).then(() => {
+                        console.log('Flash is enabled.');
+                    }).catch((error) => {
+                        console.error('Error enabling flash:', error);
+                    });
+    
+                } else {
+                    console.log('Flash is not supported.');
+                }
+    
                 if ('BarcodeDetector' in window) {
                     startBarcodeDetection();
                 } else {
                     startQuaggaDetection();
                 }
-            });
+            });    
         }).catch(alert);
     }
+    
 
     function stopScan() {
         if (stream) {
