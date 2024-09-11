@@ -212,7 +212,8 @@ function fetchinfo() {
         alert('No barcode scanned or barcode value is empty.');
         return;
     }
-    loader.style.visibility = 'visible'
+        
+    loader.style.visibility = 'visible';
     loader.style.animation = 'l17 3s infinite steps(6)';
 
     var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
@@ -226,17 +227,24 @@ function fetchinfo() {
             return response.json();
         })
         .then(data => {
-            if (data.items && data.items.length > 0) {
+            if (data.items && data.items.length > 0) {                
+                loader.style.visibility = 'hidden';
+                loader.style.animation = '';
                 bookdata(data);
             } else {
                 alert('No book information found for the given ISBN.');
+                loader.style.visibility = 'hidden';
+                loader.style.animation = '';
             }
         })
         .catch(error => {
             alert('There was a problem with the fetch operation');
             console.error('Fetch error:', error);
+            loader.style.visibility = 'hidden';
+            loader.style.animation = '';
         });
 };
+
 
 let booknames;
 let authornames;
@@ -245,14 +253,6 @@ let publish;
 let imagethumb;
 
 function bookdata(data) {
-
-    setTimeout(() => {
-        loader.style.visibility = 'hidden'
-        loader.style.animation = 'none';
-        bookinfo.style.visibility = 'visible'
-        addtolib.style.visibility = 'visible'
-        viewButton.style.visibility = 'visible'
-    }, 2500);
 
     const book = data.items[0];
     booknames = book.volumeInfo.title;
