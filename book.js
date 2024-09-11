@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
 
                 if (data.items && data.items.length > 0) {
+                    hideLoader()
                     bookdata(data);
                 } else {
                     hideLoader()
