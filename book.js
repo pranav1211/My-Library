@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scanstatus.style.textStyle = 'italic'
     }
 
-    
+
     function toggleFlash() {
         if (videoTrack) {
             const capabilities = videoTrack.getCapabilities();
@@ -84,10 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
+
     function startScan() {
         if (stream) return;
-    
+
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: { exact: 'environment' },
@@ -101,11 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
             video.addEventListener("loadedmetadata", () => {
                 video.play();
                 videoTrack = stream.getVideoTracks()[0];
-    
+
                 // Check if the camera supports flash control
                 if (videoTrack.getCapabilities().torch) {
                     console.log('Flash is supported.');
-                    
+
                     // Enable flash by default
                     videoTrack.applyConstraints({
                         advanced: [{ torch: true }]
@@ -114,20 +114,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     }).catch((error) => {
                         console.error('Error enabling flash:', error);
                     });
-    
+
                 } else {
                     console.log('Flash is not supported.');
                 }
-    
+
                 if ('BarcodeDetector' in window) {
                     startBarcodeDetection();
                 } else {
                     startQuaggaDetection();
                 }
-            });    
+            });
         }).catch(alert);
     }
-    
+
 
     function stopScan() {
         if (stream) {
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
-                        
+
                         addtolib.style.visibility = 'hidden'
                         viewButton.style.visibility = 'hidden'
 
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected(function (result) {
             isbn = result.codeResult.code;
-            
+
             addtolib.style.visibility = 'hidden'
             viewButton.style.visibility = 'hidden'
 
@@ -210,8 +210,7 @@ function fetchinfo() {
         alert('No barcode scanned or barcode value is empty.');
         return;
     }
-
-    loader.style.visibility = 'visible';
+    loader.style.visibility = 'visible'
     loader.style.animation = 'l17 3s infinite steps(6)';
 
     var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
@@ -225,21 +224,19 @@ function fetchinfo() {
             return response.json();
         })
         .then(data => {
-            if (data.items && data.items.length > 0) {                
+            if (data.items && data.items.length > 0) {
                 loader.style.visibility = 'hidden';
-                loader.style.animation = '';
+                loader.style.animation = 'none';
                 bookdata(data);
             } else {
-                alert('No book information found for the given ISBN.');
                 loader.style.visibility = 'hidden';
-                loader.style.animation = '';
+                loader.style.animation = 'none';
+                alert('No book information found for the given ISBN.');
             }
         })
         .catch(error => {
             alert('There was a problem with the fetch operation');
             console.error('Fetch error:', error);
-            loader.style.visibility = 'hidden';
-            loader.style.animation = '';
         });
 };
 
