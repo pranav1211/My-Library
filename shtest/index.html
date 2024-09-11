@@ -1,17 +1,25 @@
+<!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+    <title>Fetch Example</title>
+</head>
 
 <body>
     <button id="thebut">Button</button>
     <script>
-        let but = document.querySelector("thebut");
+        let but = document.querySelector("#thebut");
         but.addEventListener('click', () => {
             fetch('http://64.227.143.61/mylibgit')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
                 .then(data => console.log(data))
                 .catch(error => console.error('Error:', error));
-        })
+        });
     </script>
 </body>
 
