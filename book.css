@@ -8,6 +8,8 @@ body {
 
 /* Video Section */
 #videodiv {    
+    height: 60.567%;
+    width: 98%;
     border: 3px solid rgb(0, 0, 0);
     display: flex;
     justify-content: center;
@@ -20,8 +22,6 @@ body {
 }
 
 #video {
-    height: 60.567%;
-    width: 98%;
     object-fit: cover;
 }
 
