@@ -130,13 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // activate loader animation
     function showLoader() {
-        loader.style.visibility = 'visible';
-        loader.style.animation = 'whirl-book 2s infinite';
+        loader.style.visibility = 'visible';        
 
         const loaderPages = loader.querySelectorAll('div');
         loaderPages.forEach((page, index) => {
             let delay = 0.15 * (index + 1);
-            page.style.animation = `whirl-book 2s infinite`;
+            page.style.animation = `whirl-book 3s infinite`;
             page.style.animationDelay = `${delay}s`;
         });
     }
