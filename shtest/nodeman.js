@@ -2,7 +2,7 @@ const http = require('http');
 
 http.createServer((request, response) => {
     const path = request.url;
-    const substr = '/mylibgit';
+    const substr = '/mylibg';
 
     if (path.includes(substr)) {
         console.log('server called');
@@ -15,4 +15,3 @@ http.createServer((request, response) => {
     }
 
 }).listen(6004);
-console.log('Server running at http://localhost:6006/');
