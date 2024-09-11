@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location = 'https://mylibrary.life/yourlibrary.html'
         viewButton.style.backgroundPosition = "-100% 0"
     });
-    flashcontrol.addEventListener('click', toggleFlash());
 
     // Set initial scan status based on BarcodeDetector support
     if ('BarcodeDetector' in window) {
@@ -61,26 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     setcssstatus();
 
-    // Flash toggle functionality
-    function toggleFlash() { 
-        if (videoTrack && videoTrack.getCapabilities().torch) {
-            videoTrack.applyConstraints({
-                advanced: [{ torch: !flashOn }]
-            }).then(() => {
-                flashOn = !flashOn;
-                console.log(flashOn ? 'Flash is enabled.' : 'Flash is disabled.');
-            }).catch((error) => {
-                console.error('Error toggling flash:', error);
-            }); 
-        } else {
-            console.log('Flash is not supported or videoTrack is not available.');
-        }
-    }
-
     // Start scan and initialize camera
     function startScan() {
         if (stream) return;
-
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: { exact: 'environment' },
@@ -95,6 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 video.play();
                 videoTrack = stream.getVideoTracks()[0];
 
+                // Check for flash support
+                if (videoTrack.getCapabilities().torch) {
+                    flashcontrol.addEventListener('click', () => {
+                        videoTrack.applyConstraints({
+                            advanced: [{ torch: true }]
+                        })
+                    })
+                } else {
+                    alert('Flash is not supported.');
+                }
+
                 // Start appropriate barcode detection
                 if ('BarcodeDetector' in window) {
                     startBarcodeDetection();
@@ -104,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }).catch(alert);
     }
-
     // Stop scan and camera
     function stopScan() {
         if (stream) {
