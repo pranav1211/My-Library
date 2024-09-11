@@ -313,15 +313,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(books_in_storage);
     }
 
-    // // Add book information to localStorage
-    // function addinfo() {
-    //     let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
-    //     localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
-    //     localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
-    //     localStorage.setItem(`userbookgenre${bookIndex}`, genre);
-    //     localStorage.setItem(`userbookpublish${bookIndex}`, publish);
-    //     localStorage.setItem('noofbooks', bookIndex);
-    // }
+    // Add book information to localStorage
+    function addinfo() {
+        let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
+        localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
+        localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
+        localStorage.setItem(`userbookgenre${bookIndex}`, genre);
+        localStorage.setItem(`userbookpublish${bookIndex}`, publish);
+        localStorage.setItem('noofbooks', bookIndex);
+    }
 
     // Additional helper functions
     function setcssstatus() {
