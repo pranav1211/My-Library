@@ -155,8 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     barcodes.forEach(barcode => {
                         console.log("Barcode detected and decoded: ", barcode.rawValue);
                         isbn = barcode.rawValue;
-
-                        bookinfo.style.visibility = 'hidden';
+                        
                         addtolib.style.visibility = 'hidden'
                         viewButton.style.visibility = 'hidden'
 
@@ -192,8 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected(function (result) {
             isbn = result.codeResult.code;
-
-            bookinfo.style.visibility = 'hidden';
+            
             addtolib.style.visibility = 'hidden'
             viewButton.style.visibility = 'hidden'
 
@@ -212,7 +210,7 @@ function fetchinfo() {
         alert('No barcode scanned or barcode value is empty.');
         return;
     }
-        
+
     loader.style.visibility = 'visible';
     loader.style.animation = 'l17 3s infinite steps(6)';
 
