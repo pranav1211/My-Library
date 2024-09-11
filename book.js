@@ -223,8 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No barcode scanned or barcode value is empty.');
             return;
         }
-
-        showLoader()
+        showLoader()       
 
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
         fetch(apiUrl)
