@@ -105,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 //     }).catch((error) => {
                 //         console.error('Error enabling flash:', error);
                 //     });
-                } else {
-                    console.log('Flash is not supported.');
-                }
+                // } else {
+                //     console.log('Flash is not supported.');
+                // }
 
                 // Start appropriate barcode detection
                 if ('BarcodeDetector' in window) {
