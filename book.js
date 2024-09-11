@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             isflash = true;
                         }
-                        if(isflash){
+                        else{
                             flashimg.src = 'images/flash_off.png'
                             videoTrack.applyConstraints({
                                 advanced: [{ torch: false }]
