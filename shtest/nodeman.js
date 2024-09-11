@@ -1,8 +1,6 @@
 const http = require('http');
-// const { exec } = require('child_process');
 
 http.createServer((request, response) => {
-    // exec("sh test.sh")
     response.end("works")
 }).listen(6006);
 
