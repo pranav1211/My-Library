@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize books from localStorage
     getBooks();
 
+    let flashOn = true;
+
     // Button event listeners
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
@@ -60,18 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
     setcssstatus();
 
     // Flash toggle functionality
-    function toggleFlash() {
-        if (videoTrack.getCapabilities().torch) {
-            console.log('Flash is supported.');
+    function toggleFlash() { 
+        if (videoTrack && videoTrack.getCapabilities().torch) {
             videoTrack.applyConstraints({
-                advanced: [{ torch: true }]
+                advanced: [{ torch: !flashOn }]
             }).then(() => {
-                console.log('Flash is enabled.');
+                flashOn = !flashOn;
+                console.log(flashOn ? 'Flash is enabled.' : 'Flash is disabled.');
             }).catch((error) => {
-                console.error('Error enabling flash:', error);
-            });
+                console.error('Error toggling flash:', error);
+            }); 
         } else {
-            console.log('Flash is not supported.');
+            console.log('Flash is not supported or videoTrack is not available.');
         }
     }
 
@@ -92,20 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             video.addEventListener("loadedmetadata", () => {
                 video.play();
                 videoTrack = stream.getVideoTracks()[0];
-
-                // Check for flash support
-                // if (videoTrack.getCapabilities().torch) {
-                //     console.log('Flash is supported.');
-                //     videoTrack.applyConstraints({
-                //         advanced: [{ torch: true }]
-                //     }).then(() => {
-                //         console.log('Flash is enabled.');
-                //     }).catch((error) => {
-                //         console.error('Error enabling flash:', error);
-                //     });
-                // } else {
-                //     console.log('Flash is not supported.');
-                // }
 
                 // Start appropriate barcode detection
                 if ('BarcodeDetector' in window) {
