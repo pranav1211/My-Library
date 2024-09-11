@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // activate loader animation
     function showLoader() {
+        loader.style.visibility = 'visible';
         loader.style.animation = 'whirl-book 2s infinite';
 
         const loaderPages = loader.querySelectorAll('div');
@@ -140,16 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // deactivate the loader animation
+    //deactivate loader animation
     function hideLoader() {
+        loader.style.visibility = 'hidden';
         loader.style.animation = 'none';
-        loader.style.visibility = 'hidden'
 
         const loaderPages = loader.querySelectorAll('div');
         loaderPages.forEach(page => {
             page.style.animation = 'none';
         });
     }
+
 
     // handling duplicate barcode scanned
     function handlebarcode(barcode) {
@@ -222,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        loader.style.visibility = 'visible';
         showLoader()
 
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
@@ -240,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data.items && data.items.length > 0) {
                     bookdata(data);
                 } else {
+                    hideLoader()
                     alert('No book information found for the given ISBN.');
                 }
             })
