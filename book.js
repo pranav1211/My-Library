@@ -163,10 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         else {
-            fetchinfo();
+            addtolib.style.visibility = 'hidden';
+            viewButton.style.visibility = 'hidden';
+            fetchinfo();            
         }
         lastScannedBarcode = barcode
     }
+
     // Barcode detection using BarcodeDetector API
     function startBarcodeDetection() {
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
@@ -178,8 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         isbn = barcode.rawValue;
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
-                        addtolib.style.visibility = 'hidden';
-                        viewButton.style.visibility = 'hidden';
                         handlebarcode(isbn);
                     });
                 }
@@ -213,8 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isbn = result.codeResult.code;
             barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
             barcodeResult.style.fontSize = '3vw';
-            addtolib.style.visibility = 'hidden';
-            viewButton.style.visibility = 'hidden';
             handlebarcode(isbn);
             Quagga.stop();
         });
