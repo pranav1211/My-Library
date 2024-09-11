@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Fetch Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST Request Example</title>
 </head>
-
 <body>
     <button id="thebut">Button</button>
     <script>
-        let but = document.querySelector("#thebut");
-        but.addEventListener('click', () => {
-            fetch('http://64.227.143.61/mylibgit')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
+        document.querySelector("#thebut").addEventListener('click', () => {
+            fetch('http://64.227.143.61/mylibgit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Optional: Specify content type
+                },
+                body: JSON.stringify({ key: 'value' }) // Optional: Send some data
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
-
 </html>
