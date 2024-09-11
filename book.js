@@ -82,10 +82,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check for flash support
                 if (videoTrack.getCapabilities().torch) {
                     flashcontrol.addEventListener('click', () => {
-                        flashimg.src = 'images/flash_on.png'
-                        videoTrack.applyConstraints({
-                            advanced: [{ torch: true }]
-                        })
+                        if (!isflash) {
+                            flashimg.src = 'images/flash_on.png'
+                            videoTrack.applyConstraints({
+                                advanced: [{ torch: true }]
+                            })
+                            isflash = true;
+                        }
+                        if(isflash){
+                            flashimg.src = 'images/flash_off.png'
+                            videoTrack.applyConstraints({
+                                advanced: [{ torch: false }]
+                            })
+                            isflash = false;
+                        }
                     })
                 } else {
                     alert('Flash is not supported.');
@@ -114,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scanInterval = null;
         }
         Quagga.stop();
+        flashimg.src = 'images/flash_off.png'
     }
 
     // activate loader animation
