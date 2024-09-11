@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn ;
+var isbn;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -37,7 +37,7 @@ let flashcontrol = document.querySelector('#flashcontrol')
 let lastScannedBarcode = null; // Store the last scanned barcode
 let isFetching = false; // Prevent multiple fetches at once
 
-document.addEventListener('DOMContentLoaded', () => {    
+document.addEventListener('DOMContentLoaded', () => {
     // Initialize books from localStorage
     getBooks();
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location = 'https://mylibrary.life/yourlibrary.html'
         viewButton.style.backgroundPosition = "-100% 0"
     });
-    flashcontrol.addEventListener('click',toggleFlash());
+    flashcontrol.addEventListener('click', toggleFlash());
 
     // Set initial scan status based on BarcodeDetector support
     if ('BarcodeDetector' in window) {
@@ -61,19 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Flash toggle functionality
     function toggleFlash() {
-        if (videoTrack) {
-            const capabilities = videoTrack.getCapabilities();
-            if (capabilities.torch) {
-                videoTrack.applyConstraints({
-                    advanced: [{ torch: !flashOn }]
-                }).then(() => {
-                    flashOn = !flashOn;
-                }).catch((error) => {
-                    console.error('Error toggling flash:', error);
-                });
-            } else {
-                console.log('Flash control is not available.');
-            }
+        if (videoTrack.getCapabilities().torch) {
+            console.log('Flash is supported.');
+            videoTrack.applyConstraints({
+                advanced: [{ torch: true }]
+            }).then(() => {
+                console.log('Flash is enabled.');
+            }).catch((error) => {
+                console.error('Error enabling flash:', error);
+            });
+        } else {
+            console.log('Flash is not supported.');
         }
     }
 
@@ -169,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             addtolib.style.visibility = 'hidden';
             viewButton.style.visibility = 'hidden';
-            fetchinfo();            
+            fetchinfo();
         }
         lastScannedBarcode = barcode
     }
