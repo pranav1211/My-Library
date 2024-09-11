@@ -128,12 +128,34 @@ document.addEventListener('DOMContentLoaded', () => {
         Quagga.stop();
     }
 
+    // activate loader animation
+    function showLoader() {
+        loader.style.animation = 'whirl-book 2s infinite';
 
+        const loaderPages = loader.querySelectorAll('div');
+        loaderPages.forEach((page, index) => {
+            let delay = 0.15 * (index + 1);
+            page.style.animation = `whirl-book 2s infinite`;
+            page.style.animationDelay = `${delay}s`;
+        });
+    }
+
+    // deactivate the loader animation
+    function hideLoader() {
+        loader.style.animation = 'none';
+        loader.style.visibility = 'hidden'
+
+        const loaderPages = loader.querySelectorAll('div');
+        loaderPages.forEach(page => {
+            page.style.animation = 'none';
+        });
+    }
+
+    // handling duplicate barcode scanned
     function handlebarcode(barcode) {
         if (barcode === lastScannedBarcode) {
             console.log("duplicate barcode, skipping fetch")
-            loader.style.visibility = 'hidden';
-            loader.style.animation = 'none';
+            hideLoader()
             return;
         }
         lastScannedBarcode = barcode
@@ -201,22 +223,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         loader.style.visibility = 'visible';
-        loader.style.animation = 'l17 3s infinite steps(6)';
+        showLoader()
 
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
                     alert('Network response was not ok');
-                    loader.style.visibility = 'hidden';
-                    loader.style.animation = 'none';
+                    hideLoader()
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then(data => {
-                loader.style.visibility = 'hidden';
-                loader.style.animation = 'none';
+
                 if (data.items && data.items.length > 0) {
                     bookdata(data);
                 } else {
@@ -224,8 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                loader.style.visibility = 'hidden';
-                loader.style.animation = 'none';
+                hideLoader()
                 console.log('There was a problem with the fetch operation');
                 console.error('Fetch error:', error);
             });

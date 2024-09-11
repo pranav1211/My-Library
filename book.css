@@ -83,18 +83,64 @@ body {
 }
 
 .loader {
-    width: 120px;
-    height: 20px;
-    -webkit-mask: radial-gradient(circle closest-side, #000 94%, #0000) left/20% 100%;
-    background: linear-gradient(#000 0 0) left/0% 100% no-repeat #ddd;
+    height: 50px;
+    width: 40px;
+    position: relative;    
+    perspective: 80px;
     visibility: hidden;
+
 }
 
-@keyframes l17 {
+.loader div {
+    /* animation: whirl-book 2s infinite; */
+    background: black; /* Ensure --primary is defined elsewhere or replace it with a specific color */
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    -webkit-transform-origin: left;
+    transform-origin: left;
+    width: 100%;
+    
+}
+
+.loader div:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.loader div:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.loader div:nth-child(3) {
+    animation-delay: 0.45s;
+}
+
+.loader div:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.loader div:nth-child(5) {
+    animation-delay: 0.75s;
+}
+
+@keyframes whirl-book {
+    0% {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+    }
+    50%,
+    80% {
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+    }
+    90%,
     100% {
-        background-size: 120% 100%;
+        opacity: 0;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
     }
 }
+
 
 /* Add/Confirm Book Buttons */
 #addButton, #viewButton, #added1 {
