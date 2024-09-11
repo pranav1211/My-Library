@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POST Request Example</title>
-</head>
+<head></head>
 
 <body>
     <button id="thebut">Button</button>
     <script>
-        document.querySelector("#thebut").addEventListener('click', () => {
-            window.location = 'http://64.227.143.61/mylibgit'
-        });
+        let but = document.querySelector("thebut");
+        but.addEventListener('click', () => {
+            fetch('http://64.227.143.61/mylibgit')
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        })
     </script>
 </body>
 
