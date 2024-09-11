@@ -32,6 +32,8 @@ let booknames, authornames, genre, publish, imagethumb;
 
 // flash control
 let flashcontrol = document.querySelector('#flashcontrol')
+let isflash = false;
+let flashimg = document.querySelector("#flashimg");
 
 // constant fetching
 let lastScannedBarcode = null; // Store the last scanned barcode
@@ -80,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check for flash support
                 if (videoTrack.getCapabilities().torch) {
                     flashcontrol.addEventListener('click', () => {
+                        flashimg.src = 'images/flash_on.png'
                         videoTrack.applyConstraints({
                             advanced: [{ torch: true }]
                         })
