@@ -30,6 +30,10 @@ var isbn;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
+// constant fetching
+let lastScannedBarcode = null; // Store the last scanned barcode
+let isFetching = false; // Prevent multiple fetches at once
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize books from localStorage
     getBooks();
@@ -124,6 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
         Quagga.stop();
     }
 
+
+    function handlebarcode(barcode) {
+        if (barcode === lastScannedBarcode){
+            console.log("duplicate barcode, skipping fetch")
+            return;
+        }
+        lastScannedBarcode = barcode        
+    }
     // Barcode detection using BarcodeDetector API
     function startBarcodeDetection() {
         const barcodeDetector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
@@ -133,11 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (barcodes.length > 0) {
                     barcodes.forEach(barcode => {
                         isbn = barcode.rawValue;
+                        handlebarcode(isbn);
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
                         addtolib.style.visibility = 'hidden';
-                        viewButton.style.visibility = 'hidden';
-                        fetchinfo();
+                        viewButton.style.visibility = 'hidden';                        
+                        fetchinfo()
                     });
                 }
             }).catch(err => {
@@ -168,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected(function (result) {
             isbn = result.codeResult.code;
+            handlebarcode(isbn);
             barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
             barcodeResult.style.fontSize = '3vw';
             addtolib.style.visibility = 'hidden';
