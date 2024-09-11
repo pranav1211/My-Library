@@ -130,11 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function handlebarcode(barcode) {
-        if (barcode === lastScannedBarcode){
+        if (barcode === lastScannedBarcode) {
             console.log("duplicate barcode, skipping fetch")
+            loader.style.visibility = 'hidden';
+            loader.style.animation = 'none';
             return;
         }
-        lastScannedBarcode = barcode        
+        lastScannedBarcode = barcode
     }
     // Barcode detection using BarcodeDetector API
     function startBarcodeDetection() {
@@ -149,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
                         addtolib.style.visibility = 'hidden';
-                        viewButton.style.visibility = 'hidden';                        
+                        viewButton.style.visibility = 'hidden';
                         fetchinfo()
                     });
                 }
@@ -224,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 loader.style.visibility = 'hidden';
                 loader.style.animation = 'none';
-                alert('There was a problem with the fetch operation');
+                console.log('There was a problem with the fetch operation');
                 console.error('Fetch error:', error);
             });
     }
