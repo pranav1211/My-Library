@@ -9,16 +9,8 @@
     <button id="thebut">Button</button>
     <script>
         document.querySelector("#thebut").addEventListener('click', () => {
-            fetch('http://64.227.143.61/mylibgit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' // Optional: Specify content type
-                },
-                body: JSON.stringify({ key: 'value' }) // Optional: Send some data
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
+            window.location('http://64.227.143.61/mylibgit')
+
         });
     </script>
 </body>
