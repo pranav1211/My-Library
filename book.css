@@ -31,7 +31,7 @@ body {
 
 /* Button Styling */
 #scanButton {
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 #confirm, #barcodeResult {
@@ -225,4 +225,32 @@ body {
 .button-35:active {
     transform: translateY(8px);
     box-shadow: rgb(171, 60, 60) 0px 0px 0px 0px;
+}
+
+.button-36 {
+    width: 12.3605vw;
+    height: 12.3605vw;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: rgb(203, 78, 78);
+    box-shadow: rgb(171, 60, 60) 0px 6px 0px 0px;
+    position: relative;
+    font-size: 5vw;
+    font-family: Lato, Calibri, Arial, sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
+    border: 0px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-right: 10px;
+}
+
+.button-36:active {
+    transform: translateY(8px);
+    box-shadow: rgb(171, 60, 60) 0px 0px 0px 0px;
+}
+
+#flashimg{
+    margin-top: 15px;
 }

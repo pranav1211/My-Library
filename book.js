@@ -30,6 +30,9 @@ var isbn ;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
+// flash control
+let flashcontrol = document.querySelector('#flashcontrol')
+
 // constant fetching
 let lastScannedBarcode = null; // Store the last scanned barcode
 let isFetching = false; // Prevent multiple fetches at once
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location = 'https://mylibrary.life/yourlibrary.html'
         viewButton.style.backgroundPosition = "-100% 0"
     });
+    flashcontrol.addEventListener('click',toggleFlash());
 
     // Set initial scan status based on BarcodeDetector support
     if ('BarcodeDetector' in window) {
@@ -92,15 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 videoTrack = stream.getVideoTracks()[0];
 
                 // Check for flash support
-                if (videoTrack.getCapabilities().torch) {
-                    console.log('Flash is supported.');
-                    videoTrack.applyConstraints({
-                        advanced: [{ torch: true }]
-                    }).then(() => {
-                        console.log('Flash is enabled.');
-                    }).catch((error) => {
-                        console.error('Error enabling flash:', error);
-                    });
+                // if (videoTrack.getCapabilities().torch) {
+                //     console.log('Flash is supported.');
+                //     videoTrack.applyConstraints({
+                //         advanced: [{ torch: true }]
+                //     }).then(() => {
+                //         console.log('Flash is enabled.');
+                //     }).catch((error) => {
+                //         console.error('Error enabling flash:', error);
+                //     });
                 } else {
                     console.log('Flash is not supported.');
                 }
@@ -261,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authornames = book.volumeInfo.authors ? book.volumeInfo.authors.join(',') : 'unknown';
         genre = book.volumeInfo.categories ? book.volumeInfo.categories.join(',') : 'unknown';
         publish = book.volumeInfo.publishedDate;
-        imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'notfound.jpg';
+        imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'images/notfound.jpg';
 
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
         genrename.innerHTML = `<strong>Genre:</strong> ${genre}`;
