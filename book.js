@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn;
+var isbn = 9780099560432;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -35,6 +35,7 @@ let lastScannedBarcode = null; // Store the last scanned barcode
 let isFetching = false; // Prevent multiple fetches at once
 
 document.addEventListener('DOMContentLoaded', () => {
+    fetchinfo()
     // Initialize books from localStorage
     getBooks();
 
@@ -42,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     startScanButton.addEventListener('click', startScan);
     stopScanButton.addEventListener('click', stopScan);
     addButton.addEventListener('click', handleAddBook);
-    viewButton.addEventListener('click', () => viewButton.style.backgroundPosition = "-100% 0");
+    viewButton.addEventListener('click', () => {
+        window.location = 'https://mylibrary.life/yourlibrary.html'
+        viewButton.style.backgroundPosition = "-100% 0"
+    });
 
     // Set initial scan status based on BarcodeDetector support
     if ('BarcodeDetector' in window) {
@@ -130,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // activate loader animation
     function showLoader() {
-        loader.style.visibility = 'visible';        
+        loader.style.visibility = 'visible';
 
         const loaderPages = loader.querySelectorAll('div');
         loaderPages.forEach((page, index) => {
@@ -262,14 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
         imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'notfound.jpg';
 
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
-        genrename.innerHTML = `Genre : <strong>${genre}</strong>`;
-        yearofpublish.innerHTML = `Year Published : <strong>${publish}</strong>`;
+        genrename.innerHTML = `<strong>Genre:</strong> ${genre}`;
+        yearofpublish.innerHTML = `<strong>Published:</strong> ${publish}`;
         imagesource.src = imagethumb;
 
         // Set font sizes for better readability
-        bookname.style.fontSize = '5vw';
-        genrename.style.fontSize = '5vw';
-        yearofpublish.style.fontSize = '5vw';
+        bookname.style.fontSize = '5.5vw';
+        genrename.style.fontSize = '5.5vw';
+        yearofpublish.style.fontSize = '5.5vw';
+
+        addtolib.style.visibility = 'visible';
+        viewButton.style.visibility = 'visible';
     }
 
     // Add book to library
@@ -308,15 +315,15 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(books_in_storage);
     }
 
-    // Add book information to localStorage
-    function addinfo() {
-        let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
-        localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
-        localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
-        localStorage.setItem(`userbookgenre${bookIndex}`, genre);
-        localStorage.setItem(`userbookpublish${bookIndex}`, publish);
-        localStorage.setItem('noofbooks', bookIndex);
-    }
+    // // Add book information to localStorage
+    // function addinfo() {
+    //     let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
+    //     localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
+    //     localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
+    //     localStorage.setItem(`userbookgenre${bookIndex}`, genre);
+    //     localStorage.setItem(`userbookpublish${bookIndex}`, publish);
+    //     localStorage.setItem('noofbooks', bookIndex);
+    // }
 
     // Additional helper functions
     function setcssstatus() {
