@@ -160,6 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hideLoader()
             return;
         }
+        else {
+            fetchinfo();
+        }
         lastScannedBarcode = barcode
     }
     // Barcode detection using BarcodeDetector API
@@ -171,12 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (barcodes.length > 0) {
                     barcodes.forEach(barcode => {
                         isbn = barcode.rawValue;
-                        handlebarcode(isbn);
                         barcodeResult.innerHTML = `Barcode Detected : ${isbn}<br>`;
                         barcodeResult.style.fontSize = '3vw';
                         addtolib.style.visibility = 'hidden';
                         viewButton.style.visibility = 'hidden';
-                        fetchinfo()
+                        handlebarcode(isbn);
                     });
                 }
             }).catch(err => {
@@ -207,12 +209,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected(function (result) {
             isbn = result.codeResult.code;
-            handlebarcode(isbn);
             barcodeResult.innerHTML = `Barcode Detected<br>${isbn}<br>`;
             barcodeResult.style.fontSize = '3vw';
             addtolib.style.visibility = 'hidden';
             viewButton.style.visibility = 'hidden';
-            fetchinfo();
+            handlebarcode(isbn);
             Quagga.stop();
         });
     }
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No barcode scanned or barcode value is empty.');
             return;
         }
-        showLoader()       
+        showLoader()
 
         var apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`;
         fetch(apiUrl)
