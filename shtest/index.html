@@ -15,7 +15,7 @@
         });
 
         function calls() {
-            fetch('http://64.227.143.61/mylibg', {
+            fetch('https://64.227.143.61/mylibg', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,10 +24,11 @@
                     key: 'value' // Replace with actual data to be sent
                 })
             })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
         }
+
     </script>
 </body>
 
