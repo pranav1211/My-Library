@@ -11,12 +11,22 @@
     <button id="thebut">Button</button>
     <script>
         document.querySelector("#thebut").addEventListener('click', () => {
-            calls()
+            calls();
         });
 
         function calls() {
-
-            fetch('http://64.227.143.61/mylibg');
+            fetch('http://64.227.143.61/mylibg', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    key: 'value' // Replace with actual data to be sent
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
         }
     </script>
 </body>
