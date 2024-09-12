@@ -10,21 +10,15 @@
   <p id="dataDisplay"></p>
 
   <script>
-    document.getElementById('fetchButton').addEventListener('click', () => {
-      // Fetch data from the Node.js server over HTTP
-      fetch('http://64.227.143.61:3000/mylibg')  // Use HTTP instead of HTTPS
+    document.getElementById('fetchButton').addEventListener('click', () => {      
+      fetch('https://mylibrary.life/mylibg')
         .then(response => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
-          return response.json();  // Assuming the response is JSON
-        })
-        .then(data => {
-          // Display the data received from the server
-          document.getElementById('dataDisplay').innerText = JSON.stringify(data);
-        })
-        .catch(error => {
-          // Handle errors here
+          return response.json();
+        })        
+        .catch(error => {          
           console.error('Error:', error);
         });
     });
