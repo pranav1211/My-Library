@@ -1,14 +1,13 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const port = 6004; // Ensure this matches the port you configured in Nginx
 
-http.createServer((request, response) => {
-    const substr = '/mylibg';
+// Route for /mylibg
+app.get('/mylibg', (req, res) => {
+  res.send('Welcome to My Library');
+});
 
-    if (path.includes(substr)) {
-        response.end("Unauthorized")
-    } else {
-        response.statusCode = 404;
-        response.end("Not Found");
-    }
-
-}).listen(6004);
-
+// Start the server
+app.listen(port, () => {
+  console.log(`Node.js server running on http://localhost:${port}/mylibg`);
+});
