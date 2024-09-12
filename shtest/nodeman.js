@@ -1,32 +1,22 @@
-const { exec } = require('child_process');
-const http = require('http');
+// Install express and node-fetch before running
+// npm install express node-fetch
 
-http.createServer((request, response) => {
-    const path = request.url;
-    const substr = '/mylibg';
+const express = require('express');
+const fetch = require('node-fetch'); // or use global fetch in Node.js v18+
 
-    if (path.includes(substr)) {
-        console.log('Server called');
-        
-        // Execute shell script
-        exec("sh test.sh", (error, stdout, stderr) => {
-            if (error) {
-                console.error(`exec error: ${error}`);
-                response.statusCode = 500;
-                response.end(`Server error: ${error.message}`);
-                return;
-            }
+const app = express();
+const PORT = 6004;
 
-            console.log(`stdout: ${stdout}`);
-            console.error(`stderr: ${stderr}`);
-            response.end("Shell script executed");
-        });
-
-    } else {
-        response.statusCode = 404;
-        response.end("Not Found");
-    } 
-
-}).listen(6004, () => {
-    console.log('Server running at http://localhost:6004/');
+app.get('/data', (req, res) => {
+  const data = { message: 'Hello from Node.js!' };
+  res.json(data);
 });
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://64.227.143.61:${PORT}`);
+});
+
+fetch('https://jsonplaceholder.typicode.com/todos/1')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => console.error('Error:', err));

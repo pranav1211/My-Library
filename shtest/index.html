@@ -1,35 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POST Request Example</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Example</title>
 </head>
-
 <body>
-    <button id="thebut">Button</button>
-    <script>
-        document.querySelector("#thebut").addEventListener('click', () => {
-            calls();
-        });
+  <button id="fetchButton">Fetch Data</button>
+  <p id="dataDisplay"></p>
 
-        function calls() {
-            fetch('https://64.227.143.61/mylibg', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    key: 'value' // Replace with actual data to be sent
-                })
-            })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-        }
-
-    </script>
+  <script>
+    document.getElementById('fetchButton').addEventListener('click', () => {
+      fetch('http://64.227.143.61/mylibg')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('dataDisplay').innerText = JSON.stringify(data);
+        })
+        .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
-
 </html>
