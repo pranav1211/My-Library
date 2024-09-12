@@ -1,1 +1,1 @@
-echo "hello"
+echo "Shell script is running"
