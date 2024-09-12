@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 const path = require('path');
 
 // Absolute path to the shell script
-const scriptPath = '/mylib/shtest/test.sh';
+const scriptPath = '/shellfiles/test.sh';
 
 app.get('/mylibg', (req, res) => {    
     exec(`sh ${scriptPath}`, (error, stdout, stderr) => {
