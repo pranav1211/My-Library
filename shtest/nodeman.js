@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
 const { exec } = require('child_process');
+const path = require('path');
 
-app.get('/mylibg', (req, res) => {
-    // Execute the shell script
-    exec('sh test.sh', (error, stdout, stderr) => {
+// Absolute path to the shell script
+const scriptPath = '/mylib/shtest/test.sh';
+
+app.get('/mylibg', (req, res) => {    
+    exec(`sh ${scriptPath}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing script: ${error}`);
             return res.status(500).json({ message: 'Error executing script', error: error.message });
