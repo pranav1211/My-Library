@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 const path = require('path');
 require('dotenv').config();
 
-const scriptPath = '/shellfiles/test.sh';
+const scriptPath = '/shellfiles/mylib.sh';
 const GITHUB_SECRET = process.env.mylibgitkey;
 
 const app = express();
