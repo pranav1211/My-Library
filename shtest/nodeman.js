@@ -1,22 +1,14 @@
-// Install express and node-fetch before running
-// npm install express node-fetch
+const http = require('http');
 
-const express = require('express');
-const fetch = require('node-fetch'); // or use global fetch in Node.js v18+
+http.createServer((request, response) => {
+    const substr = '/mylibg';
 
-const app = express();
-const PORT = 6004;
+    if (path.includes(substr)) {
+        response.end("Unauthorized")
+    } else {
+        response.statusCode = 404;
+        response.end("Not Found");
+    }
 
-app.get('/data', (req, res) => {
-  const data = { message: 'Hello from Node.js!' };
-  res.json(data);
-});
+}).listen(6004);
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://64.227.143.61:${PORT}`);
-});
-
-fetch('https://jsonplaceholder.typicode.com/todos/1')
-  .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error('Error:', err));
