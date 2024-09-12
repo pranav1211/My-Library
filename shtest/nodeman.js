@@ -1,13 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 6004; // Ensure this matches the port you configured in Nginx
 
-// Route for /mylibg
 app.get('/mylibg', (req, res) => {
-  res.send('Welcome to My Library');
+  res.status(200).json({ message: 'Hello, world!', timestamp: new Date() });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Node.js server running on http://localhost:${port}/mylibg`);
+app.listen(6004, () => {
+  console.log('Server is running on port 3000');
 });
