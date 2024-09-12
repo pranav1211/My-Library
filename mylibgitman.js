@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/mylibg', (req, res) => {    
-    exec(`sh ${scriptPath}`, (error, stdout, stderr) => {
+    exec(`sudo sh ${scriptPath}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing script: ${error}`);
             return res.status(500).json({ message: 'Error executing script', error: error.message });
