@@ -6,7 +6,10 @@ const path = require('path');
 // Absolute path to the shell script
 const scriptPath = '/shellfiles/test.sh';
 
-app.get('/mylibg', (req, res) => {    
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+app.post('/mylibg', (req, res) => {    
     exec(`sh ${scriptPath}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing script: ${error}`);
@@ -20,7 +23,7 @@ app.get('/mylibg', (req, res) => {
         }
 
         // Send the response
-        res.status(200).json({ message: 'Hello, world!', timestamp: new Date() });
+        res.status(200).json({ message: 'Script executed successfully', timestamp: new Date() });
     });
 });
 
