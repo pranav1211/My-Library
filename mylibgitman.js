@@ -29,13 +29,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.post('/mylibg', (req, res) => {    
-    exec(`sudo sh ${scriptPath}`, (error, stdout, stderr) => {
+app.post('/mylibg', (req, res) => {
+    exec(`sh ${scriptPath}`, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error executing script: ${error}`);
             return res.status(500).json({ message: 'Error executing script', error: error.message });
         }
-        
+
         console.log(`Script output: ${stdout}`);
         if (stderr) {
             console.error(`Script stderr: ${stderr}`);
