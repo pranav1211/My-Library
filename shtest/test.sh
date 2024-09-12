@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOG_FILE="/path/to/logfile.log"
+LOG_FILE="/gitlogs/myliblog.log"
 
 CURRENT_TIME=$(date +"%Y-%m-%d %H:%M:%S")
 
