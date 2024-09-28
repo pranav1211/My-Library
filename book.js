@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     })
                 } else {
-                    alert('Flash is not supported.');
+                    console.log('Flash is not supported.');
                 }
 
                 // Start appropriate barcode detection
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch book information based on ISBN
     function fetchinfo() {
         if (!isbn) {
-            alert('No barcode scanned or barcode value is empty.');
+            console.log('No barcode scanned or barcode value is empty.');
             return;
         }
         showLoader()
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     bookdata(data);
                 } else {
                     hideLoader()
-                    alert('No book information found for the given ISBN.');
+                    console.log('No book information found for the given ISBN.');
                 }
             })
             .catch(error => {
