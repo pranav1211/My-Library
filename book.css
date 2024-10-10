@@ -179,7 +179,7 @@ body {
 
 /* View Button */
 #viewButton {
-    visibility: hidden;
+    visibility: ;
     background: rgb(69, 147, 227);
     background-size: 200% 100%;
     background-image: linear-gradient(270deg, rgb(26, 97, 168) 50%, rgb(89, 167, 247) 50%);
@@ -200,7 +200,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 /* Button Style 35 */
@@ -209,7 +209,7 @@ body {
     height: 12.3605vw;
     box-sizing: border-box;
     border-radius: 20px;
-    background: rgb(203, 78, 78);
+    background: rgb(221, 40, 40);
     box-shadow: rgb(171, 60, 60) 0px 6px 0px 0px;
     position: relative;
     font-size: 5vw;
@@ -232,7 +232,26 @@ body {
     height: 12.3605vw;
     box-sizing: border-box;
     border-radius: 20px;
-    background: rgb(203, 78, 78);
+    background: inherit;
+    box-shadow: inherit 0px 6px 0px 0px;
+    position: relative;
+    font-size: 5vw;
+    font-family: Lato, Calibri, Arial, sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1px;
+    border: 0px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-right: 10px;
+}
+
+.button-37 {
+    width: 12.3605vw;
+    height: 12.3605vw;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background:  rgb(221, 40, 40);
     box-shadow: rgb(171, 60, 60) 0px 6px 0px 0px;
     position: relative;
     font-size: 5vw;
