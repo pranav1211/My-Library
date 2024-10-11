@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Library</title>
+    <link rel="stylesheet" href="yourlibrary.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="deletebutton">
+        <button id="deleteall" class="button-30"><img src="images/deleteall.png" id="deleteimg"></button>
+    </div>
+    <br><br><br><br><br>
+    <div id="bookdiv">
+        <div v-for="book in books" class="books">
+            <img :src="book.image" :alt="book.name" class="book-image">
+            <div class="book-name">{{ book.name }}</div>
+        </div>
+    </div>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        var deleteall = document.querySelector('#deleteall');
+        var booknames = []
+        var booklinks = []
+        var noofbooks = localStorage.getItem('noofbooks')
+        var booklist;
+        var base = ['userbooktitle', 'userbookthumb', 'userbookpublish', 'userbookgenre', 'userbookauthor']
+
+        deleteall.addEventListener('click', () => {
+            for (let i = 1; i <= noofbooks; i++) {
+                for (const baseval of base) { 
+                    const val = `${baseval}${i}`;                    
+                    localStorage.removeItem(val);
+                }
+                noofbooks--;
+            }
+            localStorage.setItem('noofbooks', noofbooks);
+            location.reload()
+
+        });
+
+        function fetchinfo() {
+            for (let i = 1; i <= noofbooks; i++) {
+                val1 = localStorage.getItem(base[0] + i)
+                val2 = localStorage.getItem(base[1] + i)
+                booknames.push(val1)
+                booklinks.push(val2)
+            }
+            booklist = booknames.map((title, index) => ({
+                name: title,
+                image: booklinks[index] || '#'
+            }))
+        }
+
+        fetchinfo()
+
+        Vue.createApp({
+            data() {
+                return {
+                    books: booklist
+                }
+            }
+        }).mount('#bookdiv');
+    });
+</script>
+
+</html>

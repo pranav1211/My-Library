@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn = 9780749386061;
+var isbn;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     stopScanButton.addEventListener('click', stopScan);
     addButton.addEventListener('click', handleAddBook);
     viewButton.addEventListener('click', () => {
-        window.location = 'https://mylibrary.life/yourlibrary.html'
+        window.location = 'yourlibrary.html'
         viewButton.style.backgroundPosition = "-100% 0"
     });
 
@@ -316,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
         localStorage.setItem(`userbookgenre${bookIndex}`, genre);
         localStorage.setItem(`userbookpublish${bookIndex}`, publish);
+        localStorage.setItem(`userbookthumb${bookIndex}`, imagethumb);
         localStorage.setItem('noofbooks', bookIndex);
     }
 
@@ -328,7 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (stream) {
             stream.getTracks().forEach(track => track.stop());
         }
-    }
-    fetchinfo()
+    }    
     window.onbeforeunload = clearStream;
 });

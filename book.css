@@ -70,6 +70,9 @@ body {
     flex-direction: column;
     margin-right: 10px;
     margin-left: 30px;
+    font-family: "Sometype Mono", monospace;
+    font-optical-sizing: auto;    
+    font-style: normal;
 }
 
 #imagesrc {
@@ -79,7 +82,7 @@ body {
 }
 
 #imagesource {
-    width: 40vw;
+    width: 45vw;
     margin-top: 2vw;
 }
 
