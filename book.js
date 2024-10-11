@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display book information
     function bookdata(data) {
-        const book = data.items[0];
+        const book = data.items[0]; 
         booknames = book.volumeInfo.title;
         authornames = book.volumeInfo.authors ? book.volumeInfo.authors.join(',') : 'unknown';
         genre = book.volumeInfo.categories ? book.volumeInfo.categories.join(',') : 'unknown';
