@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn;
+var isbn = 9780749386061;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -310,14 +310,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // // Add book information to localStorage
-    // function addinfo() {
-    //     let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
-    //     localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
-    //     localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
-    //     localStorage.setItem(`userbookgenre${bookIndex}`, genre);
-    //     localStorage.setItem(`userbookpublish${bookIndex}`, publish);
-    //     localStorage.setItem('noofbooks', bookIndex);
-    // }
+    function addinfo() {
+        let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
+        localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
+        localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
+        localStorage.setItem(`userbookgenre${bookIndex}`, genre);
+        localStorage.setItem(`userbookpublish${bookIndex}`, publish);
+        localStorage.setItem('noofbooks', bookIndex);
+    }
 
     // Additional helper functions
     function setcssstatus() {
@@ -329,6 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
             stream.getTracks().forEach(track => track.stop());
         }
     }
-
+    fetchinfo()
     window.onbeforeunload = clearStream;
 });
