@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authornames = book.volumeInfo.authors ? book.volumeInfo.authors.join(',') : 'unknown';
         genre = book.volumeInfo.categories ? book.volumeInfo.categories.join(',') : 'unknown';
         publish = book.volumeInfo.publishedDate;
-        imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'images/notfound.jpg';
+        imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'images/nocover.jpg';
 
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
         genrename.innerHTML = `<strong>Genre:</strong> ${genre}`;
