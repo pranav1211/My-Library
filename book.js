@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             added1.style.background = 'rgb(42, 197, 108)';
         }
 
-        added1.style.animation = 'moveup 2s';
+        added1.style.animation = 'moveup 1s';
         setTimeout(() => {
             added1.style.animation = 'none';
         }, 2000);
