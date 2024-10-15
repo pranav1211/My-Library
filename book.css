@@ -182,7 +182,6 @@ body {
 
 /* View Button */
 #viewButton {
-    visibility: hidden;
     background: rgb(69, 147, 227);
     background-size: 200% 100%;
     background-image: linear-gradient(270deg, rgb(26, 97, 168) 50%, rgb(89, 167, 247) 50%);
