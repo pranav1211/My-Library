@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn;
+var isbn = 9781524763145 ;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -42,6 +42,7 @@ let isFetching = false; // Prevent multiple fetches at once
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize books from localStorage
     getBooks();
+    fetchinfo()
 
     let flashOn = true;
 
