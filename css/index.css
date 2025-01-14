@@ -8,7 +8,7 @@ body {
 
 #welcome {
     font-size: 40px;
-
+    font-weight: bold;
     font-family: "PT Sans Narrow", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -31,11 +31,8 @@ body {
     font-family: "PT Sans Narrow", sans-serif;
     font-weight: 400;
     font-style: normal;
-
     cursor: pointer;
-
     margin-bottom: 40px;
-
 }
 
 #startit:active {
@@ -43,13 +40,47 @@ body {
 }
 
 #note {
+    font-family: "PT Sans Narrow", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 25px;
+    text-align: center;
+}
+
+
+#about{
+    font-family: "PT Sans Narrow", sans-serif;    
+    font-style: normal;
+    font-size: 26px;
+    text-align: center;    
+}
+
+#clicktostart{
+    font-family: "PT Sans Narrow", sans-serif;    
+    font-style: normal;
+    font-size: 20px;
+    text-align: center;    
+    font-weight: bolder;
+}
+
+#viewlib{
+    font-size: 40px;
+    border-radius: 20px;
+    padding: 15px;
+
+    background-color: rgb(24, 8, 165);
+    border: 1px solid grey;
+    box-shadow: 5px 5px 5px lightblue;    
 
     font-family: "PT Sans Narrow", sans-serif;
     font-weight: 400;
     font-style: normal;
+    cursor: pointer;
+    margin-bottom: 40px;
+    color: white;
+}
 
-    font-size: 25px;
+footer{
     text-align: center;
-
-
+    margin-top: 130px;
 }

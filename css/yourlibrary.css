@@ -45,7 +45,29 @@
     row-gap: 60px;
     justify-items: center;
     margin-top: 2vw;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    border-radius: 20px; /* Rounded corners */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
+
+@media (max-width: 768px) {
+    #bookdiv {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #bookdiv {
+        grid-template-columns: 1fr;
+    }
+
+    .book-name {
+        font-size: 5vw;
+    }
+}
+
 
 .books {
     width: 25vw;

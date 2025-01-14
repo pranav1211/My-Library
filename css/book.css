@@ -186,6 +186,7 @@ body {
     background-size: 200% 100%;
     background-image: linear-gradient(270deg, rgb(26, 97, 168) 50%, rgb(89, 167, 247) 50%);
     transition: background-position 0.5s ease;
+    visibility: hidden;
 }
 
 
