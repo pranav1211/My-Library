@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Borel&family=Cherry+Swash:wght@400;700&family=Nova+Mono&family=Playwrite+HR:wght@100..400&display=swap');
-        </style>
+    </style>
 </head>
 
 <body>
@@ -16,19 +16,15 @@
     </div>
     <br><br><br><br><br>
     <div id="bookdiv">
-        <div v-for="book in books" class="books" @click="showPopup(book)">
+        <div v-for="(book, index) in books" :key="index" class="books" @click="showPopup('book' + (index + 1))"
+            :id="'book' + (index + 1)">
             <img :src="book.image" :alt="book.name" class="book-image">
             <div class="book-name">{{ book.name }}</div>
         </div>
     </div>
 
-    <!-- Popup Modal -->
     <div id="popup" class="popup" @click="closePopup">
         <div class="popup-content" @click.stop>
-            <img :src="selectedBook.image" :alt="selectedBook.name">
-            <h2>{{ selectedBook.name }}</h2>
-            <p>{{ selectedBook.author }}</p>
-            <button class="close-btn" @click="closePopup">Close</button>
         </div>
     </div>
 
@@ -37,64 +33,85 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         var deleteall = document.querySelector('#deleteall');
-        var booknames = []
-        var booklinks = []
-        var bookauthors = []  // To store authors
-        var noofbooks = localStorage.getItem('noofbooks')
-        var booklist;
-        var base = ['userbooktitle', 'userbookthumb', 'userbookpublish', 'userbookgenre', 'userbookauthor']
+        var noofbooks = localStorage.getItem('noofbooks');
+        var booklist = [];
 
-        deleteall.addEventListener('click', () => {
-            for (let i = noofbooks; i >= 1; i--) {
-                for (const baseval of base) {
-                    const val = `${baseval}${i}`;
-                    localStorage.removeItem(val);
-                }
-                noofbooks--;
-            }
-            localStorage.setItem('noofbooks', noofbooks);
-            location.reload()
-        });
-
+        // Function to fetch all books from localStorage
         function fetchinfo() {
+            // Loop through each book
             for (let i = 1; i <= noofbooks; i++) {
-                val1 = localStorage.getItem(base[0] + i)
-                val2 = localStorage.getItem(base[1] + i)
-                val3 = localStorage.getItem(base[4] + i)  // Get the author
-                booknames.push(val1)
-                booklinks.push(val2)
-                bookauthors.push(val3)  // Store the author
+                let book = JSON.parse(localStorage.getItem(`book${i}`));
+
+                if (book) {
+                    booklist.push({
+                        name: book.title,
+                        image: book.thumb || '#',
+                        author: book.author || 'Unknown Author'
+                    });
+                }
             }
-            booklist = booknames.map((title, index) => ({
-                name: title,
-                image: booklinks[index] || '#',
-                author: bookauthors[index] || 'Unknown Author'  // Default author if not available
-            }))
         }
 
-        fetchinfo()
+        // Fetch books when the page is loaded
+        fetchinfo();
 
+        // Vue app to display books and show popup on click
         Vue.createApp({
             data() {
                 return {
                     books: booklist,
                     selectedBook: {}
-                }
+                };
             },
             methods: {
                 showPopup(book) {
-                    this.selectedBook = book;
                     document.getElementById('popup').style.display = 'flex';
-                },
-                closePopup(event) {
-                    // Prevent the event from propagating to the overlay, which would close it
-                    event.stopPropagation();
-                    document.getElementById('popup').style.display = 'none';
+
+                    let popbook = JSON.parse(localStorage.getItem(book));
+
+                    document.querySelector('.popup-content').innerHTML = '';
+
+
+                    let popimg = document.createElement('img');
+                    popimg.src = popbook.thumb;
+                    popimg.id = 'popimg'
+
+                    let poptitle = document.createElement('h2');
+                    poptitle.textContent = popbook.title;
+                    poptitle.id = "poptitle"
+
+                    let popauthor = document.createElement('h2');
+                    popauthor.textContent = popbook.author;
+                    popauthor.id = "popauthor"
+
+                    let closepop = document.createElement('button')
+                    closepop.id = "closeid"
+                    closepop.onclick = closethepop
+                    closepop.textContent = "X"
+
+                    document.querySelector('.popup-content').appendChild(closepop);
+                    document.querySelector('.popup-content').appendChild(popimg);
+                    document.querySelector('.popup-content').appendChild(poptitle);
+                    document.querySelector('.popup-content').appendChild(popauthor);
+                    
                 }
             }
         }).mount('#bookdiv');
+
+        // Handle delete all books
+        deleteall.addEventListener('click', () => {
+            for (let i = noofbooks; i >= 1; i--) {
+                localStorage.removeItem(`book${i}`);
+            }
+            localStorage.setItem('noofbooks', 0);
+            location.reload();
+        });
+
+        function closethepop(){
+            document.getElementById('popup').style.display = 'none';
+        }
+
     });
 </script>
-
 
 </html>

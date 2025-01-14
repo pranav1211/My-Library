@@ -26,7 +26,7 @@ let error1 = document.querySelector('#error1'); // error animation
 let added1 = document.querySelector('#added1'); // added animation
 
 // Book details variables
-var isbn = 9781524763145 ;
+var isbn;
 let books_in_storage = [];
 let booknames, authornames, genre, publish, imagethumb;
 
@@ -41,8 +41,7 @@ let isFetching = false; // Prevent multiple fetches at once
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize books from localStorage
-    getBooks();
-    fetchinfo()
+    getBooks();    
 
     let flashOn = true;
 
@@ -251,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Display book information
+    // extract and display book information
     function bookdata(data) {
         const book = data.items[0]; 
         booknames = book.volumeInfo.title;
@@ -259,11 +258,14 @@ document.addEventListener('DOMContentLoaded', () => {
         genre = book.volumeInfo.categories ? book.volumeInfo.categories.join(',') : 'unknown';
         publish = book.volumeInfo.publishedDate;
         imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'images/nocover.jpg';
+        // description = book.
 
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
         genrename.innerHTML = `<strong>Genre:</strong> ${genre}`;
         yearofpublish.innerHTML = `<strong>Published:</strong> ${publish}`;
         imagesource.src = imagethumb;
+
+        
 
         // Set font sizes for better readability
         bookname.style.fontSize = '5.5vw';
@@ -276,25 +278,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add book to library
     function handleAddBook() {
+        // Check if the book already exists in books_in_storage
         if (books_in_storage.includes(booknames)) {
             added1.innerHTML = 'Error!';
             added1.style.background = 'red';
-            alert('Book already exists');
+            alert('Book already exists in your library.');
         } else {
-            if (!localStorage.getItem('noofbooks')) {
-                localStorage.setItem('noofbooks', 0);
+            // Check if the book already exists in localStorage by looking for existing keys with 'book'
+            let isBookExists = false;
+            for (let i = 1; i <= localStorage.getItem('noofbooks'); i++) {
+                let storedBook = JSON.parse(localStorage.getItem(`book${i}`));
+                if (storedBook && storedBook.title === booknames) {
+                    isBookExists = true;
+                    break;
+                }
             }
-            addinfo();
-            getBooks();
-            added1.innerHTML = 'Added!';
-            added1.style.background = 'rgb(42, 197, 108)';
+    
+            if (isBookExists) {
+                added1.innerHTML = 'Error!';
+                added1.style.background = 'red';
+                alert('Book already exists in storage.');
+            } else {
+                if (!localStorage.getItem('noofbooks')) {
+                    localStorage.setItem('noofbooks', 0);
+                }
+                addinfo();  // Adds the book to localStorage
+                getBooks(); // Refreshes the book list from localStorage
+                added1.innerHTML = 'Added!';
+                added1.style.background = 'rgb(42, 197, 108)';
+            }
+    
+            added1.style.animation = 'moveup 1s';
+            setTimeout(() => {
+                added1.style.animation = 'none';
+            }, 2000);
         }
-
-        added1.style.animation = 'moveup 1s';
-        setTimeout(() => {
-            added1.style.animation = 'none';
-        }, 2000);
     }
+    
 
     // Get books from localStorage
     function getBooks() {
@@ -313,13 +333,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // // Add book information to localStorage
     function addinfo() {
         let bookIndex = parseInt(localStorage.getItem('noofbooks')) + 1;
-        localStorage.setItem(`userbooktitle${bookIndex}`, booknames);
-        localStorage.setItem(`userbookauthor${bookIndex}`, authornames);
-        localStorage.setItem(`userbookgenre${bookIndex}`, genre);
-        localStorage.setItem(`userbookpublish${bookIndex}`, publish);
-        localStorage.setItem(`userbookthumb${bookIndex}`, imagethumb);
+    
+        // Create a book object with all the necessary information
+        let book = {
+            title: booknames,
+            author: authornames,
+            genre: genre,
+            publish: publish,
+            thumb: imagethumb
+        };
+    
+        // Store each book's information using a consistent key pattern
+        localStorage.setItem(`book${bookIndex}`, JSON.stringify(book));
+    
+        // Update the total number of books in localStorage
         localStorage.setItem('noofbooks', bookIndex);
     }
+    
 
     // Additional helper functions
     function setcssstatus() {
