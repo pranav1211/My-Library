@@ -5,7 +5,7 @@ startit.addEventListener('click',()=>{
 })
 
 var viewit = document.querySelector('#viewlib')
-
+ 
 viewit.addEventListener('click',()=>{
     window.location.href = "https://library.beyondmebtw.com/yourlibrary.html";
 })
