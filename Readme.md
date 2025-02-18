@@ -1,7 +1,7 @@
 Hello There.
 
 This is an application designed to create an online library of you books just by scanning the barcodes on them from your phone camera!!!\
-Check it out on https://Mylibrary.life
+Check it out on https://library.beyondmebtw.com
 
 This works only on devies with a rear camera.
 
