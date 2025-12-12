@@ -1,33 +1,98 @@
 <html lang="en">
 
 <head>
-    <title>My Library</title>
-    <meta name="My Library" description="An online library log">
+    <title>My Library - Your Personal Book Collection</title>
+    <meta name="My Library" content="An online library log">
+    <meta name="description" content="Scan, organize, and manage your personal book collection with ease">
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
     </style>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/cookie-consent.css">
 </head>
 
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">📚 My Library</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active" aria-label="Home">Home</a>
+            <a href="scanner.html" class="nav-link" aria-label="Scan Books">Scanner</a>
+            <a href="yourlibrary.html" class="nav-link" aria-label="View Library">Library</a>
+        </div>
+    </nav>
 
-    <div id="welcome">Welcome to<br><strong>My Library</strong></div>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <!-- Animated Books Graphics -->
+        <div class="animated-books">
+            <div class="book book1">📕</div>
+            <div class="book book2">📗</div>
+            <div class="book book3">📘</div>
+            <div class="book book4">📙</div>
+            <div class="floating-sparkles">✨</div>
+        </div>
 
-    <div id="about">Your Personal Library Organizer<br>Scan, Save, and Access Anytime! </div>
-    <br><br><br>
-    <div id="clicktostart">Click the button below to build your library</div><br>
-    <button id="startit">Let's Build</button>
+        <div id="welcome">Welcome to<br><strong>My Library</strong></div>
+        <div id="about">Your Personal Library Organizer<br>Scan, Save, and Access Anytime!</div>
+    </div>
 
-    <br><br>
-    
-    <button id="viewlib">View Library</button>
+    <!-- Features Section -->
+    <div class="features-section">
+        <h2 class="features-title">What You Can Do</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📷</div>
+                <h3>Scan Books</h3>
+                <p>Use your camera to scan book barcodes instantly</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Save Library</h3>
+                <p>Keep track of all your books in one place</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Organize</h3>
+                <p>Sort and filter your collection easily</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📤</div>
+                <h3>Export Data</h3>
+                <p>Download your library as CSV for backup</p>
+            </div>
+        </div>
+    </div>
 
+    <!-- CTA Section -->
+    <div class="cta-section">
+        <div id="clicktostart">Click the button below to build your library</div>
+        <button id="startit" aria-label="Start building your library">
+            <span class="button-text">Let's Build</span>
+            <span class="button-icon">🚀</span>
+        </button>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+
+        <button id="viewlib" aria-label="View your existing library">
+            <span class="button-text">View Library</span>
+            <span class="button-icon">📚</span>
+        </button>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/cookie-consent.js"></script>
     <script src="js/index.js" type="text/javascript"></script>
+
     <footer>
-        <p id="f2">&copy 2024–Present<br><strong>MyLibrary</strong> created by Pranav Veeraghanta</p>
+        <div class="footer-content">
+            <p id="f2">&copy; 2024–Present<br><strong>MyLibrary</strong> created by Pranav Veeraghanta</p>
+            <p class="footer-note">Your data is stored securely on your device using cookies (expires in 1 year)</p>
+        </div>
     </footer>
 </body>
-
 
 </html>

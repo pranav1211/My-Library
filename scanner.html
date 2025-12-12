@@ -1,32 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>My Library</title>
+    <title>Scanner - My Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
     <link rel="stylesheet" href="css/book.css">
+    <link rel="stylesheet" href="css/cookie-consent.css">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
     </style>
 
 </head>
 
 <body>
-    <div id="anotherviddiv">
-        <div id="videodiv">
-            <video id="video" autoplay></video>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">📚 My Library</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" aria-label="Home">Home</a>
+            <a href="scanner.html" class="nav-link active" aria-label="Scan Books">Scanner</a>
+            <a href="yourlibrary.html" class="nav-link" aria-label="View Library">Library</a>
         </div>
+    </nav>
+    <!-- Scanner Section -->
+    <div class="scanner-container">
+        <h1 class="scanner-title">📷 Scan Your Books</h1>
+
+        <!-- Video Container with Scanning Guide -->
+        <div id="anotherviddiv">
+            <div id="videodiv">
+                <video id="video" autoplay aria-label="Camera feed for barcode scanning"></video>
+                <!-- Scanning Guide Overlay -->
+                <div class="scan-guide">
+                    <div class="scan-frame"></div>
+                    <p class="scan-instruction">Align barcode within frame</p>
+                </div>
+                <!-- Scan Success Indicator -->
+                <div class="scan-success-indicator" id="scanSuccessIndicator">
+                    <span class="checkmark">✓</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Buttons -->
+        <div id="buttons">
+            <button id="scanButton" class="button-35" aria-label="Start camera scanning">
+                <span>📷</span> Start Scanning
+            </button>
+            <button id="flashcontrol" class="button-37" aria-label="Toggle camera flash">
+                <img src="images/flash_off.png" id="flashimg" alt="Flash control">
+            </button>
+            <button id="stopscan" class="button-35 stop-button" aria-label="Stop camera">
+                <span>❌</span> Close Camera
+            </button>
+        </div>
+
+        <!-- Tips and Status -->
+        <div class="scanner-info">
+            <p id="tip">💡 The camera is always scanning. Show it a barcode for instant results!</p>
+            <p id="barcode-status"></p>
+        </div>
+
+        <!-- Manual ISBN Entry Section -->
+        <div class="manual-entry-section">
+            <button id="toggleManualEntry" class="manual-entry-toggle" aria-label="Toggle manual ISBN entry">
+                ⌨️ Enter ISBN Manually
+            </button>
+            <div id="manualEntryForm" class="manual-entry-form hidden">
+                <h3>Enter ISBN Number</h3>
+                <input
+                    type="text"
+                    id="manualIsbn"
+                    placeholder="Enter 10 or 13 digit ISBN"
+                    maxlength="13"
+                    pattern="[0-9]*"
+                    aria-label="ISBN number input"
+                >
+                <div class="manual-entry-buttons">
+                    <button id="searchManualIsbn" class="button-search" aria-label="Search for book">
+                        🔍 Search Book
+                    </button>
+                    <button id="cancelManualEntry" class="button-cancel" aria-label="Cancel manual entry">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="barcodeResult"></div>
     </div>
-    <div id="buttons">
-        <button id="scanButton" class="button-35">Start Scanning</button>
-        <button id="flashcontrol" class="button-37"><img src="images/flash_off.png" id="flashimg"></button>
-        <button id="stopscan" class="button-35">Close Camera</button>
-    </div>
-    <p id="tip">The camera is always scanning, show it a new a barcode for a new result</p>
-    <p id="barcode-status"></p>
-    <div id="barcodeResult"></div>
-    <br>
+
+    <!-- Loading Skeleton -->
     <div id="loaderdiv">
+        <div class="skeleton-loader">
+            <div class="skeleton-book">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+                <div class="skeleton-text short"></div>
+            </div>
+        </div>
         <div class="loader">
             <div></div>
             <div></div>
@@ -35,28 +109,38 @@
             <div></div>
         </div>
     </div>
-    <div id="bookinfo">
-        <div id="imagesrc">
-            <img id="imagesource" alt="bookcover" src='images/yes.jpg'>
+
+    <!-- Book Information Card -->
+    <div id="bookinfo" class="book-info-card">
+        <div id="imagesrc" class="book-image-container">
+            <img id="imagesource" alt="Book cover" src='images/yes.jpg' loading="lazy">
         </div>
-        <div id="bookdetails">
-            <p id="bookname"></p> 
+        <div id="bookdetails" class="book-details-section">
+            <p id="bookname"></p>
             <p id="genrename"></p>
             <p id="yearofpublish"></p>
         </div>
     </div>
-    <br>
+
+    <!-- Action Buttons -->
     <section id="libbuttons">
         <div id="addtolib">
-            <div id="addButton" class="button-36">Add to Library</div>
-            <div id="added1"></div>
+            <button id="addButton" class="button-36 add-btn" aria-label="Add book to library">
+                <span class="btn-icon">➕</span>
+                <span class="btn-text">Add to Library</span>
+            </button>
+            <div id="added1" role="status" aria-live="polite"></div>
         </div>
-        <button id="viewButton" class="button-36">View Library</button>
+        <button id="viewButton" class="button-36 view-btn" aria-label="View your library">
+            <span class="btn-icon">📚</span>
+            <span class="btn-text">View Library</span>
+        </button>
     </section>
-    <br><br><br>
 
+    <script src="js/storage.js"></script>
+    <script src="js/cookie-consent.js"></script>
     <script src="js/book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
 </body>
 
 </html>

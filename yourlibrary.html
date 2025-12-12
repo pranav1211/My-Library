@@ -1,117 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>My Library</title>
+    <title>Your Library - My Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
     <link rel="stylesheet" href="css/yourlibrary.css">
+    <link rel="stylesheet" href="css/cookie-consent.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Borel&family=Cherry+Swash:wght@400;700&family=Nova+Mono&family=Playwrite+HR:wght@100..400&display=swap');
     </style>
 </head>
 
 <body>
-    <div id="deletebutton">
-        <button id="deleteall" class="button-30"><img src="images/deleteall.png" id="deleteimg"></button>
-    </div>
-    <br><br><br><br><br>
-    <div id="bookdiv">
-        <div v-for="(book, index) in books" :key="index" class="books" @click="showPopup('book' + (index + 1))"
-            :id="'book' + (index + 1)">
-            <img :src="book.image" :alt="book.name" class="book-image">
-            <div class="book-name">{{ book.name }}</div>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">📚 My Library</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" aria-label="Home">Home</a>
+            <a href="scanner.html" class="nav-link" aria-label="Scan Books">Scanner</a>
+            <a href="yourlibrary.html" class="nav-link active" aria-label="View Library">Library</a>
+        </div>
+    </nav>
+
+    <div id="app">
+        <!-- Library Header -->
+        <div class="library-header">
+            <h1 class="library-title">📚 Your Library</h1>
+            <div class="library-stats">
+                <div class="stat-item">
+                    <span class="stat-number">{{ books.length }}</span>
+                    <span class="stat-label">Books</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <!-- Search -->
+            <div class="search-container">
+                <input
+                    type="text"
+                    v-model="searchQuery"
+                    placeholder="🔍 Search by title or author..."
+                    class="search-input"
+                    aria-label="Search books"
+                >
+            </div>
+
+            <!-- Filters and Actions -->
+            <div class="actions-row">
+                <div class="filter-sort-group">
+                    <!-- Sort -->
+                    <select v-model="sortBy" class="sort-select" aria-label="Sort books">
+                        <option value="dateAdded">Date Added (Newest)</option>
+                        <option value="dateAddedOld">Date Added (Oldest)</option>
+                        <option value="title">Title (A-Z)</option>
+                        <option value="titleDesc">Title (Z-A)</option>
+                        <option value="author">Author (A-Z)</option>
+                    </select>
+
+                    <!-- View Toggle -->
+                    <div class="view-toggle">
+                        <button
+                            @click="viewMode = 'grid'"
+                            :class="['view-btn', {active: viewMode === 'grid'}]"
+                            aria-label="Grid view"
+                        >
+                            ⊞
+                        </button>
+                        <button
+                            @click="viewMode = 'list'"
+                            :class="['view-btn', {active: viewMode === 'list'}]"
+                            aria-label="List view"
+                        >
+                            ☰
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button @click="exportToCSV" class="action-btn export-btn" aria-label="Export library as CSV">
+                        <span class="btn-icon">📤</span>
+                        <span class="btn-text">Export CSV</span>
+                    </button>
+                    <button @click="triggerImport" class="action-btn import-btn" aria-label="Import library from CSV">
+                        <span class="btn-icon">📥</span>
+                        <span class="btn-text">Import CSV</span>
+                    </button>
+                    <input
+                        type="file"
+                        ref="csvFileInput"
+                        @change="importFromCSV"
+                        accept=".csv"
+                        style="display: none"
+                    >
+                    <button @click="confirmDeleteAll" class="action-btn delete-all-btn" aria-label="Delete all books">
+                        <span class="btn-icon">🗑️</span>
+                        <span class="btn-text">Delete All</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div v-if="filteredBooks.length === 0 && books.length === 0" class="empty-state">
+            <div class="empty-icon">📚</div>
+            <h2>Your Library is Empty</h2>
+            <p>Start building your collection by scanning books!</p>
+            <a href="scanner.html" class="empty-cta">Start Scanning</a>
+        </div>
+
+        <!-- No Results State -->
+        <div v-else-if="filteredBooks.length === 0" class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <h2>No Books Found</h2>
+            <p>Try adjusting your search query</p>
+        </div>
+
+        <!-- Books Grid/List -->
+        <div v-else :class="['books-container', viewMode]">
+            <div
+                v-for="book in filteredBooks"
+                :key="book.index"
+                :class="['book-card', viewMode]"
+                @click="showPopup(book)"
+            >
+                <img
+                    :src="book.image"
+                    :alt="book.name"
+                    class="book-image"
+                    loading="lazy"
+                >
+                <div class="book-info">
+                    <div class="book-title">{{ book.name }}</div>
+                    <div class="book-author">{{ book.author }}</div>
+                    <div v-if="book.dateAdded" class="book-date">
+                        Added: {{ formatDate(book.dateAdded) }}
+                    </div>
+                </div>
+                <button
+                    @click.stop="confirmDelete(book)"
+                    class="delete-book-btn"
+                    aria-label="Delete this book"
+                >
+                    🗑️
+                </button>
+            </div>
+        </div>
+
+        <!-- Book Detail Popup -->
+        <div v-if="selectedBook" class="popup" @click="closePopup">
+            <div class="popup-content" @click.stop>
+                <button @click="closePopup" class="close-popup" aria-label="Close">✕</button>
+                <img :src="selectedBook.image" :alt="selectedBook.name" class="popup-image">
+                <h2 class="popup-title">{{ selectedBook.name }}</h2>
+                <p class="popup-author">by {{ selectedBook.author }}</p>
+                <div class="popup-details">
+                    <p v-if="selectedBook.genre"><strong>Genre:</strong> {{ selectedBook.genre }}</p>
+                    <p v-if="selectedBook.publish"><strong>Published:</strong> {{ selectedBook.publish }}</p>
+                    <p v-if="selectedBook.dateAdded"><strong>Added:</strong> {{ formatDate(selectedBook.dateAdded) }}</p>
+                </div>
+                <button @click="confirmDelete(selectedBook)" class="popup-delete-btn">
+                    Delete from Library
+                </button>
+            </div>
+        </div>
+
+        <!-- Confirmation Dialog -->
+        <div v-if="showConfirmDialog" class="confirm-dialog" @click="cancelDelete">
+            <div class="confirm-content" @click.stop>
+                <h3>{{ confirmMessage }}</h3>
+                <p>{{ confirmSubtext }}</p>
+                <div class="confirm-buttons">
+                    <button @click="executeDelete" class="confirm-yes">Yes, Delete</button>
+                    <button @click="cancelDelete" class="confirm-no">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="popup" class="popup" @click="closePopup">
-        <div class="popup-content" @click.stop>
-        </div>
-    </div>
-
+    <script src="js/storage.js"></script>
+    <script src="js/cookie-consent.js"></script>
+    <script src="js/library.js"></script>
 </body>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        var deleteall = document.querySelector('#deleteall');
-        var noofbooks = localStorage.getItem('noofbooks');
-        var booklist = [];
-
-        // Function to fetch all books from localStorage
-        function fetchinfo() {
-            // Loop through each book
-            for (let i = 1; i <= noofbooks; i++) {
-                let book = JSON.parse(localStorage.getItem(`book${i}`));
-
-                if (book) {
-                    booklist.push({
-                        name: book.title,
-                        image: book.thumb || '#',
-                        author: book.author || 'Unknown Author'
-                    });
-                }
-            }
-        }
-
-        // Fetch books when the page is loaded
-        fetchinfo();
-
-        // Vue app to display books and show popup on click
-        Vue.createApp({
-            data() {
-                return {
-                    books: booklist,
-                    selectedBook: {}
-                };
-            },
-            methods: {
-                showPopup(book) {
-                    document.getElementById('popup').style.display = 'flex';
-
-                    let popbook = JSON.parse(localStorage.getItem(book));
-
-                    document.querySelector('.popup-content').innerHTML = '';
-
-
-                    let popimg = document.createElement('img');
-                    popimg.src = popbook.thumb;
-                    popimg.id = 'popimg'
-
-                    let poptitle = document.createElement('h2');
-                    poptitle.textContent = popbook.title;
-                    poptitle.id = "poptitle"
-
-                    let popauthor = document.createElement('h2');
-                    popauthor.textContent = popbook.author;
-                    popauthor.id = "popauthor"
-
-                    let closepop = document.createElement('button')
-                    closepop.id = "closeid"
-                    closepop.onclick = closethepop
-                    closepop.textContent = "X"
-
-                    document.querySelector('.popup-content').appendChild(closepop);
-                    document.querySelector('.popup-content').appendChild(popimg);
-                    document.querySelector('.popup-content').appendChild(poptitle);
-                    document.querySelector('.popup-content').appendChild(popauthor);
-                    
-                }
-            }
-        }).mount('#bookdiv');
-
-        // Handle delete all books
-        deleteall.addEventListener('click', () => {
-            for (let i = noofbooks; i >= 1; i--) {
-                localStorage.removeItem(`book${i}`);
-            }
-            localStorage.setItem('noofbooks', 0);
-            location.reload();
-        });
-
-        function closethepop(){
-            document.getElementById('popup').style.display = 'none';
-        }
-
-    });
-</script>
 
 </html>
