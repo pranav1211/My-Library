@@ -14,7 +14,8 @@ createApp({
             confirmMessage: '',
             confirmSubtext: '',
             deleteTarget: null,
-            deleteType: '' // 'single' or 'all'
+            deleteType: '', // 'single' or 'all'
+            showMenu: false
         };
     },
     computed: {
@@ -67,6 +68,13 @@ createApp({
         }
     },
     methods: {
+        toggleMenu() {
+            this.showMenu = !this.showMenu;
+        },
+        closeMenuAndExecute(callback) {
+            this.showMenu = false;
+            callback();
+        },
         loadBooks() {
             this.books = [];
             const allBooks = StorageManager.getAllBooks();
@@ -79,6 +87,7 @@ createApp({
                     image: book.thumb || 'images/nocover.jpg',
                     genre: book.genre || 'Unknown',
                     publish: book.publish || 'Unknown',
+                    description: book.description || 'No description available.',
                     dateAdded: book.dateAdded || null
                 });
             });
@@ -168,7 +177,7 @@ createApp({
 
             try {
                 // Create CSV content
-                const headers = ['Title', 'Author', 'Genre', 'Published', 'Image URL', 'Date Added'];
+                const headers = ['Title', 'Author', 'Genre', 'Published', 'Image URL', 'Description', 'Date Added'];
                 const csvRows = [headers.join(',')];
 
                 this.books.forEach(book => {
@@ -178,6 +187,7 @@ createApp({
                         this.escapeCSV(book.genre),
                         this.escapeCSV(book.publish),
                         this.escapeCSV(book.image),
+                        this.escapeCSV(book.description || ''),
                         this.escapeCSV(book.dateAdded || '')
                     ];
                     csvRows.push(row.join(','));
@@ -260,7 +270,8 @@ createApp({
                                 genre: values[2] || 'Unknown',
                                 publish: values[3] || 'Unknown',
                                 thumb: values[4] || 'images/nocover.jpg',
-                                dateAdded: values[5] || new Date().toISOString()
+                                description: values[5] || 'No description available.',
+                                dateAdded: values[6] || new Date().toISOString()
                             });
                         }
                     }

@@ -26,7 +26,7 @@ let scanSuccessIndicator = document.querySelector('#scanSuccessIndicator');
 // Book details variables
 var isbn;
 let books_in_storage = [];
-let booknames, authornames, genre, publish, imagethumb;
+let booknames, authornames, genre, publish, imagethumb, description;
 
 // Flash control
 let flashcontrol = document.querySelector('#flashcontrol');
@@ -321,6 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideLoader();
                 isFetching = false;
 
+                console.log('API Response:', JSON.stringify(data, null, 2));
+
                 if (data.items && data.items.length > 0) {
                     bookdata(data);
                 } else {
@@ -336,14 +338,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    // Fetch book cover from Goodreads via longitood API
+    async function fetchGoodreadsCover(isbn) {
+        try {
+            const response = await fetch(`https://bookcover.longitood.com/bookcover/${isbn}`);
+            if (!response.ok) {
+                throw new Error('Cover not found');
+            }
+            const data = await response.json();
+            return data.url || 'images/nocover.jpg';
+        } catch (error) {
+            console.log('Goodreads cover fetch failed, using fallback');
+            return 'images/nocover.jpg';
+        }
+    }
+
     // Extract and display book information
-    function bookdata(data) {
+    async function bookdata(data) {
         const book = data.items[0];
         booknames = book.volumeInfo.title;
         authornames = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown';
         genre = book.volumeInfo.categories ? book.volumeInfo.categories.join(', ') : 'Unknown';
         publish = book.volumeInfo.publishedDate || 'Unknown';
-        imagethumb = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'images/nocover.jpg';
+        description = book.volumeInfo.description || 'No description available.';
+
+        // Fetch cover from Goodreads API
+        imagethumb = await fetchGoodreadsCover(isbn);
 
         // Display book information
         bookname.innerHTML = `<strong>${booknames}</strong><br> By <br><em>${authornames}</em>`;
@@ -414,6 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
             genre: genre,
             publish: publish,
             thumb: imagethumb,
+            description: description,
             dateAdded: new Date().toISOString()
         };
 

@@ -27,11 +27,28 @@
     <div id="app">
         <!-- Library Header -->
         <div class="library-header">
-            <h1 class="library-title">📚 Your Library</h1>
-            <div class="library-stats">
-                <div class="stat-item">
+            <div class="header-main">
+                <div class="library-stats">
                     <span class="stat-number">{{ books.length }}</span>
                     <span class="stat-label">Books</span>
+                </div>
+                <button @click="toggleMenu" class="hamburger-btn" aria-label="Toggle menu">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+
+            <!-- Hamburger Menu -->
+            <div v-if="showMenu" class="hamburger-menu" @click.self="toggleMenu">
+                <div class="menu-content" @click.stop>
+                    <button @click="closeMenuAndExecute(exportToCSV)" class="menu-item">
+                        Export CSV
+                    </button>
+                    <button @click="closeMenuAndExecute(triggerImport)" class="menu-item">
+                        Import CSV
+                    </button>
+                    <button @click="closeMenuAndExecute(confirmDeleteAll)" class="menu-item delete-item">
+                        Delete All Books
+                    </button>
                 </div>
             </div>
         </div>
@@ -43,7 +60,7 @@
                 <input
                     type="text"
                     v-model="searchQuery"
-                    placeholder="🔍 Search by title or author..."
+                    placeholder="Search by title or author..."
                     class="search-input"
                     aria-label="Search books"
                 >
@@ -79,30 +96,15 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button @click="exportToCSV" class="action-btn export-btn" aria-label="Export library as CSV">
-                        <span class="btn-icon">📤</span>
-                        <span class="btn-text">Export CSV</span>
-                    </button>
-                    <button @click="triggerImport" class="action-btn import-btn" aria-label="Import library from CSV">
-                        <span class="btn-icon">📥</span>
-                        <span class="btn-text">Import CSV</span>
-                    </button>
-                    <input
-                        type="file"
-                        ref="csvFileInput"
-                        @change="importFromCSV"
-                        accept=".csv"
-                        style="display: none"
-                    >
-                    <button @click="confirmDeleteAll" class="action-btn delete-all-btn" aria-label="Delete all books">
-                        <span class="btn-icon">🗑️</span>
-                        <span class="btn-text">Delete All</span>
-                    </button>
-                </div>
             </div>
+
+            <input
+                type="file"
+                ref="csvFileInput"
+                @change="importFromCSV"
+                accept=".csv"
+                style="display: none"
+            >
         </div>
 
         <!-- Empty State -->
@@ -162,6 +164,10 @@
                     <p v-if="selectedBook.genre"><strong>Genre:</strong> {{ selectedBook.genre }}</p>
                     <p v-if="selectedBook.publish"><strong>Published:</strong> {{ selectedBook.publish }}</p>
                     <p v-if="selectedBook.dateAdded"><strong>Added:</strong> {{ formatDate(selectedBook.dateAdded) }}</p>
+                </div>
+                <div v-if="selectedBook.description" class="popup-description">
+                    <h3>Description</h3>
+                    <p>{{ selectedBook.description }}</p>
                 </div>
                 <button @click="confirmDelete(selectedBook)" class="popup-delete-btn">
                     Delete from Library
