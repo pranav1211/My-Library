@@ -1,0 +1,11 @@
+{
+  "branch": "main",
+  "type": "static",
+  "isPrimaryDomain": false,
+  "pm2Config": null,
+  "application": "library",
+  "repository": "git@github.com:pranav1211/My-Library.git",
+  "deploymentPath": "/projects/library",
+  "domain": "library.beyondmebtw.com",
+  "nginxConfig": null
+}
